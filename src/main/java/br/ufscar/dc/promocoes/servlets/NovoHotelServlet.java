@@ -55,5 +55,5 @@ public class NovoHotelServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
-
+    
 }
