@@ -24,3 +24,5 @@ hs_err_pid*
 # Sistema de Promocoes
 nbproject/private/
 target/
+.idea/
+*.iml
