@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 
 @WebServlet(name = "LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -23,11 +27,15 @@ public class LoginServlet extends HttpServlet {
         String usuario = request.getParameter("usuario");
         String senha = request.getParameter("senha");
 
-        if(usuarioDAO.recuperarAdministrador(usuario).getSenha() == senha){
-            request.getSession().setAttribute("logado",true);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-        } else{
-            request.getRequestDispatcher("erro.jsp").forward(request, response);
+        try {
+            if (usuarioDAO.recuperarAdministrador(usuario).getSenha().equals(senha)) {
+                request.getSession().setAttribute("logado",true);
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("erro.jsp").forward(request, response);
+            }
+        } catch (SQLException | NamingException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
