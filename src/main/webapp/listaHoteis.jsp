@@ -15,14 +15,13 @@
         <c:if test="${!empty requestScope.listaHoteis}">
             <table>
                 <tr>
-                    <th class="esquerda">Nome</th>
                     <th>Nome</th>
                     <th>Cidade</th>
                     <th>CNPJ</th>
                 </tr>
-                <c:forEach items="${requestScope.Hoteis}" var="hotel">
+                <c:forEach items="${requestScope.listaHoteis}" var="hotel">
                     <tr>
-                        <td class="esquerda">${hotel.nome}</td>
+                        <td>${hotel.nome}</td>
                         <td>${hotel.cidade}</td>
                         <td>${hotel.CNPJ}</td>
                     </tr>
