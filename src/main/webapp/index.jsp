@@ -1,36 +1,46 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <link rel="stylesheet" href="style/main.css">
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Sistema de Promocoes</title>
+    <title>Sistema de Promoções</title>
 </head>
 <body>
 
-<nav class="navbar is-primary">
-    <div class="navbar-start">
-        <a class="navbar-item">
-            Home
-        </a>
-    </div>
+<jsp:include page="snippets/navbar.jsp" />
 
-    <div class="navbar-end">
-        <a class="navbar-item">
-            Login
-        </a>
-    </div>
-</nav>
-
-<div class="container content">
-    <h1>Bem-vindo ao Sistema de Promocoes!</h1>
+<div class="container">
+    <h1 class="title has-text-centered">Bem-vindo ao Sistema de Promocoes!</h1>
     <hr>
-    <p>Este é o sistema de promocoes<p>
-    <p>Escolha o que deseja fazer:</p>
-    <a href="hotelForm.jsp">Cadastrar um hotel</a><br/>
-    <a href="siteForm.jsp">Cadastrar um site</a><br/>
-    <a href="#">Ver todos os hoteis</a><br/>
+    <div class="columns">
+
+        <div class="column">
+            <h1 class="subtitle">Não logado</h1>
+            <a href="ListarHoteisServlet">Listar Hotéis</a><br/>
+        </div>
+
+        <div class="column">
+            <h1 class="subtitle">Adminstrador</h1>
+            <a href="hotelForm.jsp">Cadastrar um hotel</a><br/>
+            <a href="siteForm.jsp">Cadastrar um site</a><br/>
+        </div>
+
+        <div class="column">
+            <h1 class="subtitle">Hotel</h1>
+            <a href="promocaoForm.jsp">Cadastrar Promoção</a><br/>
+            <a href="ListarPromocoesServlet">Listar minhas promoções</a><br/>
+        </div>
+
+        <div class="column">
+            <h1 class="subtitle">Site</h1>
+            <a href="ListarPromocoesServlet">Listar promoções</a><br/>
+        </div>
+
+    </div>
 </div>
 
 </body>
