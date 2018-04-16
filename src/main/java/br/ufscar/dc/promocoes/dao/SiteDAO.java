@@ -1,6 +1,5 @@
 package br.ufscar.dc.promocoes.dao;
 
-import br.ufscar.dc.promocoes.beans.Hotel;
 import br.ufscar.dc.promocoes.beans.Site;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
