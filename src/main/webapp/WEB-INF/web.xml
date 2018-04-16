@@ -8,6 +8,14 @@
         <servlet-name>NovoSiteServlet</servlet-name>
         <servlet-class>br.ufscar.dc.promocoes.servlets.NovoSiteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListarHoteisServlet</servlet-name>
+        <servlet-class>br.ufscar.dc.promocoes.servlets.ListarHoteisServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>br.ufscar.dc.promocoes.servlets.LoginServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NovoHotelServlet</servlet-name>
         <url-pattern>/NovoHotelServlet</url-pattern>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>NovoSiteServlet</servlet-name>
         <url-pattern>/NovoSiteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListarHoteisServlet</servlet-name>
+        <url-pattern>/ListarHoteisServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
