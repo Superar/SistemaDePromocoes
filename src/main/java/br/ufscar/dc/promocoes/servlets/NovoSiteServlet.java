@@ -1,4 +1,7 @@
+package br.ufscar.dc.promocoes.servlets;
+
 import br.ufscar.dc.promocoes.beans.Site;
+import br.ufscar.dc.promocoes.dao.SiteDAO;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.annotation.Resource;

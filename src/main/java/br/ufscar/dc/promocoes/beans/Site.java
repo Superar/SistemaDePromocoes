@@ -4,11 +4,11 @@ public class Site {
 
     private String url, nome, senha, telefone;
 
-    public String getURL() {
+    public String getUrl() {
         return url;
     }
 
-    public void setURL(String URL) {
+    public void setUrl(String URL) {
         this.url = URL;
     }
 

@@ -10,7 +10,7 @@
             Url: <input name="url" type="text" /><br/>
             Nome: <input name="nome" type="text" /><br/>
             Senha <input name="senha" type="text" /><br/>
-            Telefone: <input name="telefone" type="number" /><br/>
+            Telefone: <input name="telefone" type="text" /><br/>
             <input type="submit" value="Enviar"/>
         </form>
     </body>
