@@ -26,7 +26,7 @@ public class NovaPromocaoServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response){
         Promocao novaPromocao = new Promocao();
-        PromocaoDAO promocaoDAO = new PromocaoDAO();
+        PromocaoDAO promocaoDAO = new PromocaoDAO(dataSource);
 
         try {
 
