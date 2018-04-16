@@ -25,13 +25,13 @@ public class NovoHotelServlet extends HttpServlet {
             throws ServletException, IOException {
         Hotel novoHotel = new Hotel();
         HotelDAO hotelDAO = new HotelDAO(dataSource);
-        
+
         try {
             BeanUtils.populate(novoHotel, request.getParameterMap());
         } catch (IllegalAccessException | InvocationTargetException ex) {
             Logger.getLogger(NovoHotelServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         try {
             hotelDAO.gravarHotel(novoHotel);
         } catch (SQLException | NamingException ex) {
@@ -55,5 +55,5 @@ public class NovoHotelServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
-    
+
 }

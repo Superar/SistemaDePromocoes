@@ -4,18 +4,9 @@ import java.util.Date;
 
 public class Promocao {
 
-    private int id;
     private String URLSite, CNPJHotel;
     private double preco;
     private Date dataInicial, dataFinal;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getURLSite() {
         return URLSite;
