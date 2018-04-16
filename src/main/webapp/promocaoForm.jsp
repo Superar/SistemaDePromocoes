@@ -4,44 +4,51 @@
 <head>
     <link rel="stylesheet" href="style/main.css">
 
-    <title>Cadastrar Novo Hotel</title>
+    <title>Cadastrar Nova Promoção</title>
 </head>
 <body>
 
 <jsp:include page="snippets/navbar.jsp"/>
 
 <div class="container">
-    <h1 class="title has-text-centered">Cadastro de Novo Hotel</h1>
+    <h1 class="title has-text-centered">Nova Promoção</h1>
 
     <div class="columns">
         <div class="column">
 
-            <form class="form" action="NovoHotelServlet" method="post">
+            <form class="form" action="NovaPromocaoServlet" method="post">
                 <div class="field">
-                    <label class="label">Nome</label>
+                    <label class="label">URL do Site</label>
                     <div class="control">
-                        <input name="nome" class="input" type="text">
+                        <input name="URLSite" class="input" type="text">
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">CNPJ</label>
+                    <label class="label">CNPJ do Hotel</label>
                     <div class="control">
-                        <input name="CNPJ" class="input" type="text">
+                        <input name="CNPJHotel" class="input" type="text">
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">Senha</label>
+                    <label class="label">Preço</label>
                     <div class="control">
-                        <input name="senha" class="input" type="password">
+                        <input name="preco" class="input" type="text">
                     </div>
                 </div>
 
                 <div class="field">
-                    <label class="label">Cidade</label>
+                    <label class="label">Data Inicial</label>
                     <div class="control">
-                        <input name="cidade" class="input" type="text">
+                        <input name="dataInicial" class="input" type="text">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Data do Fim</label>
+                    <div class="control">
+                        <input name="dataFinal" class="input" type="text">
                     </div>
                 </div>
 

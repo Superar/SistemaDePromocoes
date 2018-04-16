@@ -28,6 +28,7 @@ public class NovoHotelServlet extends HttpServlet {
 
         try {
             BeanUtils.populate(novoHotel, request.getParameterMap());
+
         } catch (IllegalAccessException | InvocationTargetException ex) {
             Logger.getLogger(NovoHotelServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
