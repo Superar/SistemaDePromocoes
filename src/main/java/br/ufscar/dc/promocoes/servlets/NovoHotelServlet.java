@@ -1,10 +1,13 @@
 package br.ufscar.dc.promocoes.servlets;
 
 import br.ufscar.dc.promocoes.beans.Hotel;
+import br.ufscar.dc.promocoes.beans.forms.HotelFormBean;
 import br.ufscar.dc.promocoes.dao.HotelDAO;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -14,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+
 import org.apache.commons.beanutils.BeanUtils;
 
 public class NovoHotelServlet extends HttpServlet {
@@ -23,21 +27,51 @@ public class NovoHotelServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Hotel novoHotel = new Hotel();
-        HotelDAO hotelDAO = new HotelDAO(dataSource);
+
+        request.setCharacterEncoding("UTF-8");
+
+        request.setAttribute("formEnviado", true);
+
+        HotelFormBean hotelForm = new HotelFormBean();
 
         try {
-            BeanUtils.populate(novoHotel, request.getParameterMap());
+            BeanUtils.populate(hotelForm, request.getParameterMap());
 
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            Logger.getLogger(NovoHotelServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("novoHotel", hotelForm);
+
+            List<String> erros = hotelForm.validar();
+
+            if (erros != null) {
+                request.setAttribute("erros", erros);
+            } else {
+                HotelDAO hotelDAO = new HotelDAO(dataSource);
+
+                try {
+                    Hotel novoHotel = new Hotel();
+
+                    novoHotel.setNome(hotelForm.getNome());
+                    novoHotel.setCNPJ(hotelForm.getCnpj());
+                    novoHotel.setCidade(hotelForm.getCidade());
+                    novoHotel.setSenha(hotelForm.getSenha());
+
+                    hotelDAO.gravarHotel(novoHotel);
+
+                    request.removeAttribute("novoHotel");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("mensagem", e.getLocalizedMessage());
+                    request.getRequestDispatcher("erro.jsp").forward(request, response);
+                }
+
+            }
+
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            request.setAttribute("mensagem", e.getLocalizedMessage());
+            request.getRequestDispatcher("erro.jsp").forward(request, response);
         }
 
-        try {
-            hotelDAO.gravarHotel(novoHotel);
-        } catch (SQLException | NamingException ex) {
-            Logger.getLogger(NovoHotelServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        request.getRequestDispatcher("hotelForm.jsp").forward(request, response);
     }
 
     @Override

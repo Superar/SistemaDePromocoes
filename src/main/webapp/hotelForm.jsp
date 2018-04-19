@@ -1,4 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,28 +22,28 @@
                 <div class="field">
                     <label class="label">Nome</label>
                     <div class="control">
-                        <input name="nome" class="input" type="text">
+                        <input name="nome" class="input" type="text" value="${novoHotel.nome}">
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">CNPJ</label>
                     <div class="control">
-                        <input name="CNPJ" class="input" type="text">
+                        <input name="cnpj" class="input" type="text" value="${novoHotel.cnpj}">
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">Senha</label>
                     <div class="control">
-                        <input name="senha" class="input" type="password">
+                        <input name="senha" class="input" type="password" value="${novoHotel.senha}">
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">Cidade</label>
                     <div class="control">
-                        <input name="cidade" class="input" type="text">
+                        <input name="cidade" class="input" type="text" value="${novoHotel.cidade}">
                     </div>
                 </div>
 
@@ -50,7 +52,7 @@
                         <input class="button is-link" type="submit" value="Enviar"/>
                     </div>
                     <div class="control">
-                        <button class="button">Cancelar</button>
+                        <a class="button" href="/">Cancelar</a>
                     </div>
                 </div>
 
@@ -59,7 +61,25 @@
         </div>
 
         <div class="column">
-
+            <c:if test="${requestScope.formEnviado}">
+                <c:choose>
+                    <c:when test="${not empty requestScope.erros}">
+                        <div class="notification is-danger content">
+                            <h2 class="has-text-white">Não foi possível cadastrar</h2>
+                            <ul>
+                                <c:forEach items="${requestScope.erros}" var="erro">
+                                    <li>${erro}</li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="notification is-success content">
+                            <h2 class="has-text-white">Hotel cadastrado com sucesso!</h2>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </c:if>
         </div>
     </div>
 
