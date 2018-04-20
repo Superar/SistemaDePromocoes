@@ -20,9 +20,12 @@ public class ListarHoteisServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         HotelDAO hotelDAO = new HotelDAO(dataSource);
+
         String cidade = request.getParameter("cidade");
         List<Hotel> todosHoteis = null;
+
         try {
             if (cidade == null) {
                 todosHoteis = hotelDAO.listarTodosHoteis();
