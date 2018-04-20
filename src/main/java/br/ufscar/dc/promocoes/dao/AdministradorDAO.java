@@ -51,6 +51,7 @@ public class AdministradorDAO {
                 }
             }
         }
+
         return administrador;
     }
 }
