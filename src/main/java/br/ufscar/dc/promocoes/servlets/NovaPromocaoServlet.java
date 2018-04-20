@@ -1,6 +1,7 @@
 package br.ufscar.dc.promocoes.servlets;
 
 import br.ufscar.dc.promocoes.beans.Promocao;
+import br.ufscar.dc.promocoes.beans.forms.PromocaoFormBean;
 import br.ufscar.dc.promocoes.dao.PromocaoDAO;
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -15,6 +16,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,25 +26,54 @@ public class NovaPromocaoServlet extends HttpServlet {
     @Resource(name = "jdbc/PromocoesDBLocal")
     DataSource dataSource;
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response){
-        Promocao novaPromocao = new Promocao();
-        PromocaoDAO promocaoDAO = new PromocaoDAO(dataSource);
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        request.setCharacterEncoding("UTF-8");
+
+        request.setAttribute("formEnviado", true);
+
+        PromocaoFormBean promocaoForm = new PromocaoFormBean();
 
         try {
 
-            BeanUtils.populate(novaPromocao, request.getParameterMap());
+            BeanUtils.populate(promocaoForm, request.getParameterMap());
 
-            System.out.println(novaPromocao.getCNPJHotel());
+            request.setAttribute("novaPromocao", promocaoForm);
 
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            Logger.getLogger(NovoHotelServlet.class.getName()).log(Level.SEVERE, null, ex);
+            List<String> erros = promocaoForm.validar();
+
+            if (erros != null) {
+                request.setAttribute("erros", erros);
+            } else {
+                PromocaoDAO promocaoDAO = new PromocaoDAO(dataSource);
+
+                try {
+                    Promocao novaPromocao = new Promocao();
+
+                    novaPromocao.setPreco(Double.parseDouble(promocaoForm.getPreco()));
+                    novaPromocao.setDataInicial(promocaoForm.getDataInicial());
+                    novaPromocao.setDataFinal(promocaoForm.getDataFinal());
+                    novaPromocao.setURLSite(promocaoForm.getURLSite());
+                    novaPromocao.setCNPJHotel(promocaoForm.getCNPJHotel());
+
+                    promocaoDAO.gravarPromocao(novaPromocao);
+
+                    request.removeAttribute("novaPromocao");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("mensagem", e.getLocalizedMessage());
+                    request.getRequestDispatcher("erro.jsp").forward(request, response);
+                }
+
+            }
+
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            request.setAttribute("mensagem", e.getLocalizedMessage());
+            request.getRequestDispatcher("erro.jsp").forward(request, response);
         }
 
-//        try {
-//            promocaoDAO.gravarPromocao(novaPromocao);
-//        } catch (SQLException | NamingException ex) {
-//            Logger.getLogger(NovoHotelServlet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        request.getRequestDispatcher("promocaoForm.jsp").forward(request, response);
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

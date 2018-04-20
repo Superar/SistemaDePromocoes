@@ -1,6 +1,9 @@
 package br.ufscar.dc.promocoes.servlets;
 
+import br.ufscar.dc.promocoes.beans.Hotel;
 import br.ufscar.dc.promocoes.beans.Site;
+import br.ufscar.dc.promocoes.beans.forms.SiteFormBean;
+import br.ufscar.dc.promocoes.dao.HotelDAO;
 import br.ufscar.dc.promocoes.dao.SiteDAO;
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -15,30 +18,62 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @WebServlet(name = "NovoSiteServlet")
 public class NovoSiteServlet extends HttpServlet {
+
     @Resource(name = "jdbc/PromocoesDBLocal")
     DataSource dataSource;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Site novoSite = new Site();
-        SiteDAO siteDAO = new SiteDAO(dataSource);
+
+        request.setCharacterEncoding("UTF-8");
+
+        request.setAttribute("formEnviado", true);
+
+        SiteFormBean siteForm = new SiteFormBean();
 
         try {
-            BeanUtils.populate(novoSite, request.getParameterMap());
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            Logger.getLogger(NovoSiteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            BeanUtils.populate(siteForm, request.getParameterMap());
+
+            request.setAttribute("novoSite", siteForm);
+
+            List<String> erros = siteForm.validar();
+
+            if (erros != null) {
+                request.setAttribute("erros", erros);
+            } else {
+                SiteDAO siteDAO = new SiteDAO(dataSource);
+
+                try {
+                    Site novoSite = new Site();
+
+                    novoSite.setNome(siteForm.getNome());
+                    novoSite.setSenha(siteForm.getSenha());
+                    novoSite.setUrl(siteForm.getUrl());
+                    novoSite.setTelefone(siteForm.getTelefone());
+
+                    siteDAO.gravarSite(novoSite);
+
+                    request.removeAttribute("novoSite");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    request.setAttribute("mensagem", e.getLocalizedMessage());
+                    request.getRequestDispatcher("erro.jsp").forward(request, response);
+                }
+            }
+
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            request.setAttribute("mensagem", e.getLocalizedMessage());
+            request.getRequestDispatcher("erro.jsp").forward(request, response);
         }
 
-        try {
-            siteDAO.gravarSite(novoSite);
-        } catch (SQLException | NamingException ex) {
-            Logger.getLogger(NovoSiteServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        request.getRequestDispatcher("siteForm.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
