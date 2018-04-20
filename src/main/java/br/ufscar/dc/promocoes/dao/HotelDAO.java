@@ -25,6 +25,11 @@ public class HotelDAO {
             + " FROM PROMOCOES.HOTEL"
             + " WHERE CIDADE = ?";
 
+    private final static String RECUPERAR_HOTEL_SQL = "SELECT"
+            + " CNPJ, NOME, SENHA, CIDADE"
+            + " FROM PROMOCOES.HOTEL"
+            + " WHERE CNPJ = ?";
+
     DataSource dataSource;
 
     public HotelDAO(DataSource dataSource) {
@@ -83,5 +88,24 @@ public class HotelDAO {
             }
         }
         return ret;
+    }
+
+    public Hotel recuperarHotel(String CNPJ) throws SQLException, NamingException {
+        Hotel hotel = new Hotel();
+        try (Connection con = dataSource.getConnection();
+                PreparedStatement ps = con.prepareStatement(RECUPERAR_HOTEL_SQL)) {
+
+            ps.setString(1, CNPJ);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    hotel.setCNPJ(rs.getString("CNPJ"));
+                    hotel.setSenha(rs.getString("SENHA"));
+                    hotel.setCidade(rs.getString("CIDADE"));
+                    hotel.setNome(rs.getString("NOME"));
+                }
+            }
+        }
+        return hotel;
     }
 }
