@@ -44,7 +44,22 @@ public class SiteFormBean {
     public List<String> validar() {
         List<String> erros = new ArrayList<>();
 
+        if (this.nome.isEmpty()){
+            erros.add("Preencha o nome do site");
+        }
 
-        return (erros.isEmpty() ? null : erros);
+        if(this.url.isEmpty()){
+            erros.add("Defina a url do site");
+        }
+
+        if (this.senha.isEmpty()){
+            erros.add("Forneça uma senha para o site");
+        }
+
+        if (this.telefone.isEmpty()){
+            erros.add("Informe o telefone de contato");
+        }
+
+        return erros;
     }
 }

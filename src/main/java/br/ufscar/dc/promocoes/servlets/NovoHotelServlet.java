@@ -7,6 +7,7 @@ import br.ufscar.dc.promocoes.dao.HotelDAO;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,10 +41,9 @@ public class NovoHotelServlet extends HttpServlet {
             request.setAttribute("novoHotel", hotelForm);
 
             List<String> erros = hotelForm.validar();
+            request.setAttribute("erros", erros);
 
-            if (erros != null) {
-                request.setAttribute("erros", erros);
-            } else {
+            if (erros.isEmpty()) {
                 HotelDAO hotelDAO = new HotelDAO(dataSource);
 
                 try {
@@ -57,15 +57,13 @@ public class NovoHotelServlet extends HttpServlet {
                     hotelDAO.gravarHotel(novoHotel);
 
                     request.removeAttribute("novoHotel");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    request.setAttribute("mensagem", e.getLocalizedMessage());
-                    request.getRequestDispatcher("erro.jsp").forward(request, response);
+                } catch (SQLIntegrityConstraintViolationException e) {
+                    erros.add("Já exite um hotel com o mesmo CNPJ");
                 }
 
             }
 
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("mensagem", e.getLocalizedMessage());
             request.getRequestDispatcher("erro.jsp").forward(request, response);

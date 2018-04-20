@@ -1,6 +1,7 @@
 package br.ufscar.dc.promocoes.dao;
 
 import br.ufscar.dc.promocoes.beans.Site;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,7 +28,7 @@ public class SiteDAO {
 
     public Site gravarSite(Site site) throws SQLException, NamingException {
         try (Connection con = dataSource.getConnection();
-                PreparedStatement ps = con.prepareStatement(CRIAR_SITE_SQL);) {
+             PreparedStatement ps = con.prepareStatement(CRIAR_SITE_SQL);) {
             ps.setString(1, site.getUrl());
             ps.setString(2, site.getNome());
             ps.setString(3, site.getSenha());
@@ -37,22 +38,26 @@ public class SiteDAO {
         return site;
     }
 
-    public Site recuperarHotel(String URL) throws SQLException, NamingException {
-        Site site = new Site();
+    public Site recuperarSite(String URL) throws SQLException, NamingException {
+        Site site = null;
+
         try (Connection con = dataSource.getConnection();
-                PreparedStatement ps = con.prepareStatement(RECUPERAR_SITE_SQL)) {
+             PreparedStatement ps = con.prepareStatement(RECUPERAR_SITE_SQL)) {
 
             ps.setString(1, URL);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    site = new Site();
                     site.setUrl(rs.getString("URL"));
                     site.setNome(rs.getString("NOME"));
                     site.setSenha(rs.getString("SENHA"));
                     site.setTelefone(rs.getString("TELEFONE"));
                 }
             }
+
         }
+
         return site;
     }
 }

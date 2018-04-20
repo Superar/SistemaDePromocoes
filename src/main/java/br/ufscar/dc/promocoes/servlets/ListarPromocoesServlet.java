@@ -31,11 +31,11 @@ public class ListarPromocoesServlet extends HttpServlet {
 
         List<Promocao> promocoes = new ArrayList<>();
         Promocao p1 = new Promocao();
-        p1.setURLSite("site 1");
-        p1.setCNPJHotel("1111111111111");
-        p1.setPreco(Double.parseDouble("7.50"));
-        p1.setDataInicial("10/02/2018");
-        p1.setDataFinal("25/11/2018");
+//        p1.setURLSite("site 1");
+//        p1.setCNPJHotel("1111111111111");
+//        p1.setPreco(Double.parseDouble("7.50"));
+//        p1.setDataInicial("10/02/2018");
+//        p1.setDataFinal("25/11/2018");
         promocoes.add(p1);
         promocoes.add(p1);
 

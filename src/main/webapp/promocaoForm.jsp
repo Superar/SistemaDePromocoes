@@ -53,7 +53,7 @@
                     <label class="label">Data do Fim</label>
                     <div class="control">
                         <input name="dataFinal" class="input" type="text"
-                               value="${requestScope.novaPromocao.datafinal}">
+                               value="${requestScope.novaPromocao.dataFinal}">
                     </div>
                 </div>
 

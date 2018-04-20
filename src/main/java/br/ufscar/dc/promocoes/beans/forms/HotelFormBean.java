@@ -41,10 +41,25 @@ public class HotelFormBean {
     public List<String> validar() {
         List<String> erros = new ArrayList<>();
 
-        if(this.cnpj.length() != 14){
-            erros.add("CNPJ não compatível");
+        if (this.nome.isEmpty()){
+            erros.add("Preencha o nome do hotel");
         }
 
-        return (erros.isEmpty() ? null : erros);
+        if(this.cnpj.length() != 14){
+            erros.add("CNPJ não compatível");
+        } else if(!this.cnpj.matches("[0-9]+") ){
+            erros.add("O CNPJ só pode conter números");
+        }
+
+        if(this.senha.isEmpty()){
+            erros.add("Forneça uma senha para o hotel");
+        }
+
+        if (this.cidade.isEmpty()){
+            erros.add("Preencha o nome da cidade");
+        }
+
+
+        return erros;
     }
 }

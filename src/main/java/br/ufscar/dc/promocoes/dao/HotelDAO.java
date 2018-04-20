@@ -1,6 +1,7 @@
 package br.ufscar.dc.promocoes.dao;
 
 import br.ufscar.dc.promocoes.beans.Hotel;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +39,7 @@ public class HotelDAO {
 
     public Hotel gravarHotel(Hotel hotel) throws SQLException, NamingException {
         try (Connection con = dataSource.getConnection();
-                PreparedStatement ps = con.prepareStatement(CRIAR_HOTEL_SQL);) {
+             PreparedStatement ps = con.prepareStatement(CRIAR_HOTEL_SQL);) {
             ps.setString(1, hotel.getCNPJ());
             ps.setString(2, hotel.getNome());
             ps.setString(3, hotel.getSenha());
@@ -51,7 +52,7 @@ public class HotelDAO {
     public List<Hotel> listarTodosHoteis() throws SQLException, NamingException {
         List<Hotel> ret = new ArrayList<>();
         try (Connection con = dataSource.getConnection();
-                PreparedStatement ps = con.prepareStatement(LISTAR_TODOS_HOTEIS_SQL)) {
+             PreparedStatement ps = con.prepareStatement(LISTAR_TODOS_HOTEIS_SQL)) {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -71,7 +72,7 @@ public class HotelDAO {
     public List<Hotel> listarTodosHoteisPorCidade(String cidade) throws SQLException, NamingException {
         List<Hotel> ret = new ArrayList<>();
         try (Connection con = dataSource.getConnection();
-                PreparedStatement ps = con.prepareStatement(LISTAR_TODOS_HOTEIS_POR_CIDADE_SQL)) {
+             PreparedStatement ps = con.prepareStatement(LISTAR_TODOS_HOTEIS_POR_CIDADE_SQL)) {
 
             ps.setString(1, cidade);
 
@@ -91,14 +92,17 @@ public class HotelDAO {
     }
 
     public Hotel recuperarHotel(String CNPJ) throws SQLException, NamingException {
-        Hotel hotel = new Hotel();
+        Hotel hotel = null;
+
         try (Connection con = dataSource.getConnection();
-                PreparedStatement ps = con.prepareStatement(RECUPERAR_HOTEL_SQL)) {
+             PreparedStatement ps = con.prepareStatement(RECUPERAR_HOTEL_SQL)) {
 
             ps.setString(1, CNPJ);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    hotel = new Hotel();
+
                     hotel.setCNPJ(rs.getString("CNPJ"));
                     hotel.setSenha(rs.getString("SENHA"));
                     hotel.setCidade(rs.getString("CIDADE"));
