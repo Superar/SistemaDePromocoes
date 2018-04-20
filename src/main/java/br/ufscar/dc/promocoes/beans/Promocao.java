@@ -7,24 +7,25 @@ import java.util.Date;
 
 public class Promocao {
 
-    private String URLSite, CNPJHotel;
+    private Site site;
+    private Hotel hotel;
     private double preco;
     private Date dataInicial, dataFinal;
 
-    public String getURLSite() {
-        return URLSite;
+    public Site getSite() {
+        return site;
     }
 
-    public void setURLSite(String URLSite) {
-        this.URLSite = URLSite;
+    public void setSite(Site site) {
+        this.site = site;
     }
 
-    public String getCNPJHotel() {
-        return CNPJHotel;
+    public Hotel getHotel() {
+        return hotel;
     }
 
-    public void setCNPJHotel(String CNPJHotel) {
-        this.CNPJHotel = CNPJHotel;
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 
     public double getPreco() {
@@ -44,15 +45,13 @@ public class Promocao {
         return df.format(this.dataInicial);
     }
 
-    public void setDataInicial(String dataInicial) {
-        try {
-            this.dataInicial = new SimpleDateFormat("dd/MM/yyyy").parse(dataInicial);
-        } catch (ParseException e){
-            e.printStackTrace();
-//            TODO: lidar com o erro
-        }
+    public void setDataInicial(String dataInicial) throws ParseException {
+        this.dataInicial = new SimpleDateFormat("dd/MM/yyyy").parse(dataInicial);
     }
 
+    public void setDataInicial(Date dataInicial) {
+        this.dataInicial = dataInicial;
+    }
 
     public Date getDataFinal() {
         return dataFinal;
@@ -63,13 +62,11 @@ public class Promocao {
         return df.format(this.dataFinal);
     }
 
-    public void setDataFinal(String dataFinal) {
-        try {
-            this.dataFinal = new SimpleDateFormat("dd/MM/yyyy").parse(dataFinal);
-        } catch (ParseException e){
-            e.printStackTrace();
-//            TODO: lidar com o erro
-        }
+    public void setDataFinal(String dataFinal) throws ParseException {
+        this.dataFinal = new SimpleDateFormat("dd/MM/yyyy").parse(dataFinal);
     }
 
+    public void setDataFinal(Date dataFinal) {
+        this.dataFinal = dataFinal;
+    }
 }
