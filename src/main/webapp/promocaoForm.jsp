@@ -14,7 +14,7 @@
 
 <div class="container">
     <h1 class="title has-text-centered">Nova Promoção</h1>
-
+    <hr/>
     <div class="columns">
         <div class="column">
 

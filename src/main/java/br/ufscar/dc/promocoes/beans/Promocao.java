@@ -1,5 +1,6 @@
 package br.ufscar.dc.promocoes.beans;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,6 +39,11 @@ public class Promocao {
         return dataInicial;
     }
 
+    public String getDataInicialString() {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        return df.format(this.dataInicial);
+    }
+
     public void setDataInicial(String dataInicial) {
         try {
             this.dataInicial = new SimpleDateFormat("dd/MM/yyyy").parse(dataInicial);
@@ -50,6 +56,11 @@ public class Promocao {
 
     public Date getDataFinal() {
         return dataFinal;
+    }
+
+    public String getDataFinalString() {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        return df.format(this.dataFinal);
     }
 
     public void setDataFinal(String dataFinal) {

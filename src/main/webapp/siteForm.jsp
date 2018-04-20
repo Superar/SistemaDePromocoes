@@ -15,7 +15,7 @@
 
 <div class="container">
     <h1 class="title has-text-centered">Cadastro de Novo Site</h1>
-
+    <hr/>
     <div class="columns">
         <div class="column">
             <form class="form" action="NovoSiteServlet" method="post">
