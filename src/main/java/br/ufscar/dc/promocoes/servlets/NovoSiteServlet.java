@@ -25,46 +25,54 @@ public class NovoSiteServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.setCharacterEncoding("UTF-8");
+        String user_role = (String) request.getSession().getAttribute("role");
 
-        request.setAttribute("formEnviado", true);
+        if(user_role != null && user_role.equals("admin")){
+            request.setCharacterEncoding("UTF-8");
 
-        SiteFormBean siteForm = new SiteFormBean();
+            request.setAttribute("formEnviado", true);
 
-        try {
-            BeanUtils.populate(siteForm, request.getParameterMap());
+            SiteFormBean siteForm = new SiteFormBean();
 
-            request.setAttribute("novoSite", siteForm);
+            try {
+                BeanUtils.populate(siteForm, request.getParameterMap());
 
-            List<String> erros = siteForm.validar();
-            request.setAttribute("erros", erros);
+                request.setAttribute("novoSite", siteForm);
 
-            if (erros.isEmpty()) {
-                SiteDAO siteDAO = new SiteDAO(dataSource);
+                List<String> erros = siteForm.validar();
+                request.setAttribute("erros", erros);
 
-                try {
-                    Site novoSite = new Site();
+                if (erros.isEmpty()) {
+                    SiteDAO siteDAO = new SiteDAO(dataSource);
 
-                    novoSite.setNome(siteForm.getNome());
-                    novoSite.setSenha(siteForm.getSenha());
-                    novoSite.setUrl(siteForm.getUrl());
-                    novoSite.setTelefone(siteForm.getTelefone());
+                    try {
+                        Site novoSite = new Site();
 
-                    siteDAO.gravarSite(novoSite);
+                        novoSite.setNome(siteForm.getNome());
+                        novoSite.setSenha(siteForm.getSenha());
+                        novoSite.setUrl(siteForm.getUrl());
+                        novoSite.setTelefone(siteForm.getTelefone());
 
-                    request.removeAttribute("novoSite");
-                } catch (SQLIntegrityConstraintViolationException e) {
-                    erros.add("Já existe um site com essa url");
+                        siteDAO.gravarSite(novoSite);
+
+                        request.removeAttribute("novoSite");
+                    } catch (SQLIntegrityConstraintViolationException e) {
+                        erros.add("Já existe um site com essa url");
+                    }
                 }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("mensagem", e.getLocalizedMessage());
+                request.getRequestDispatcher("erro.jsp").forward(request, response);
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("mensagem", e.getLocalizedMessage());
+            request.getRequestDispatcher("siteForm.jsp").forward(request, response);
+        } else {
+            request.setAttribute("mensagem", "<strong>ERRO 401</strong>: Permissão negada.");
             request.getRequestDispatcher("erro.jsp").forward(request, response);
         }
 
-        request.getRequestDispatcher("siteForm.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

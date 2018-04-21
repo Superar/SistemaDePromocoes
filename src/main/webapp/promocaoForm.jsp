@@ -1,6 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<c:if test="${sessionScope.role != 'hotel'}">
+    <c:redirect url="/"/>
+</c:if>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +34,7 @@
                     <label class="label">CNPJ do Hotel</label>
                     <div class="control">
                         <input name="CNPJHotel" class="input" type="text"
-                               value="${requestScope.novaPromocao.CNPJHotel}">
+                               value="${sessionScope.hotel.CNPJHotel}" disabled>
                     </div>
                 </div>
 
@@ -62,7 +66,7 @@
                         <input class="button is-link" type="submit" value="Enviar"/>
                     </div>
                     <div class="control">
-                        <a href="/" class="button">Cancelar</a>
+                        <a href="/" class="button is-danger">Cancelar</a>
                     </div>
                 </div>
 
