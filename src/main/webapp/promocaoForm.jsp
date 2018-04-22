@@ -66,7 +66,7 @@
                         <input class="button is-link" type="submit" value="Enviar"/>
                     </div>
                     <div class="control">
-                        <a href="/" class="button is-danger">Cancelar</a>
+                        <a href="${home}" class="button is-danger">Cancelar</a>
                     </div>
                 </div>
 

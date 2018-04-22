@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <nav class="navbar is-info">
     <div class="navbar-start">
-        <a class="navbar-item" href="/">Home</a>
+        <a class="navbar-item" href="${home}">Home</a>
     </div>
 
     <div class="navbar-end">
