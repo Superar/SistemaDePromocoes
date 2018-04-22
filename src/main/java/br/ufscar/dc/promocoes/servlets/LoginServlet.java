@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
 
-@WebServlet(name = "LoginServlet")
+@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
     @Resource(name = "jdbc/PromocoesDBLocal")
     DataSource dataSource;

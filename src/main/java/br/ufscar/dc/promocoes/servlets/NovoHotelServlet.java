@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+@WebServlet(name = "NovoHotelServlet", urlPatterns = {"/NovoHotelServlet"})
 public class NovoHotelServlet extends HttpServlet {
 
     @Resource(name = "jdbc/PromocoesDBLocal")
