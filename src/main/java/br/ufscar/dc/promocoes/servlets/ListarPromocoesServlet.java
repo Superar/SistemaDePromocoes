@@ -29,8 +29,6 @@ public class ListarPromocoesServlet extends HttpServlet {
         try {
             List<Promocao> promocoes = promocaoDAO.listarTodasPromocoesFiltro("11111111111111", "");
 
-            System.out.println(promocoes.size());
-
             request.setAttribute("listaPromocoes", promocoes);
 
         } catch (SQLException | NamingException e) {

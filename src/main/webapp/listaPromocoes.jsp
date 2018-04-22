@@ -37,8 +37,8 @@
                 <tbody>
                 <c:forEach items="${requestScope.listaPromocoes}" var="promocao">
                     <tr>
-                        <td>${promocao.URLSite}</td>
-                        <td>${promocao.CNPJHotel}</td>
+                        <td>${promocao.site.url}</td>
+                        <td>${promocao.hotel.CNPJ}</td>
                         <td>R$ ${promocao.preco}</td>
                         <td>${promocao.getDataInicialString()} - ${promocao.getDataFinalString()}</td>
                     </tr>

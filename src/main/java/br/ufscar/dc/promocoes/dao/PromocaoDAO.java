@@ -21,8 +21,8 @@ public class PromocaoDAO {
 
     private final static String LISTAR_TODAS_PROMOCOES_POR_HOTEL_SQL = "SELECT"
             + " P.URLSITE, P.CNPJHOTEL, P.PRECO, P.DATAINICIAL, P.DATAFINAL,"
-            + " S.URL, S.NOME, S.SENHA, S.TELEFONE,"
-            + " H.CNPJ, H.NOME, H.SENHA, H.CIDADE"
+            + " S.URL, S.NOME AS SITENOME, S.SENHA AS SITESENHA, S.TELEFONE,"
+            + " H.CNPJ, H.NOME AS HOTELNOME, H.SENHA AS HOTELSENHA, H.CIDADE"
             + " FROM PROMOCOES.PROMOCAO AS P"
             + " INNER JOIN PROMOCOES.SITE AS S ON S.URL = P.URLSITE"
             + " INNER JOIN PROMOCOES.HOTEL AS H ON H.CNPJ = P.CNPJHOTEL"
@@ -30,8 +30,8 @@ public class PromocaoDAO {
 
     private final static String LISTAR_TODAS_PROMOCOES_POR_SITE_SQL = "SELECT"
             + " P.URLSITE, P.CNPJHOTEL, P.PRECO, P.DATAINICIAL, P.DATAFINAL,"
-            + " S.URL, S.NOME, S.SENHA, S.TELEFONE,"
-            + " H.CNPJ, H.NOME, H.SENHA, H.CIDADE"
+            + " S.URL, S.NOME AS SITENOME, S.SENHA AS SITESENHA, S.TELEFONE,"
+            + " H.CNPJ, H.NOME AS HOTELNOME, H.SENHA AS HOTELSENHA, H.CIDADE"
             + " FROM PROMOCOES.PROMOCAO AS P"
             + " INNER JOIN PROMOCOES.SITE AS S ON S.URL = P.URLSITE"
             + " INNER JOIN PROMOCOES.HOTEL AS H ON H.CNPJ = P.CNPJHOTEL"
@@ -63,7 +63,7 @@ public class PromocaoDAO {
     public List<Promocao> listarTodasPromocoesFiltro(String hotelCNPJ, String siteURL) throws SQLException, NamingException {
         List<Promocao> ret = new ArrayList<>();
         try (Connection con = dataSource.getConnection();
-                PreparedStatement ps = con.prepareStatement(LISTAR_TODAS_PROMOCOES_POR_HOTEL_SQL)) {
+                PreparedStatement ps = con.prepareStatement(LISTAR_TODAS_PROMOCOES_FILTRO)) {
 
             ps.setString(1, hotelCNPJ);
             ps.setString(2, siteURL);
@@ -74,21 +74,21 @@ public class PromocaoDAO {
                     Site site = new Site();
                     Hotel hotel = new Hotel();
 
-                    site.setNome(rs.getString("S.NOME"));
-                    site.setSenha(rs.getString("S.SENHA"));
-                    site.setTelefone(rs.getString("S.TELEFONE"));
-                    site.setUrl(rs.getString("S.URL"));
+                    site.setNome(rs.getString("SITENOME"));
+                    site.setSenha(rs.getString("SITESENHA"));
+                    site.setTelefone(rs.getString("TELEFONE"));
+                    site.setUrl(rs.getString("URL"));
 
-                    hotel.setCNPJ(rs.getString("H.CNPJ"));
-                    hotel.setCidade(rs.getString("H.CIDADE"));
-                    hotel.setNome(rs.getString("H.NOME"));
-                    hotel.setSenha(rs.getString("H.SENHA"));
+                    hotel.setCNPJ(rs.getString("CNPJ"));
+                    hotel.setCidade(rs.getString("CIDADE"));
+                    hotel.setNome(rs.getString("HOTELNOME"));
+                    hotel.setSenha(rs.getString("HOTELSENHA"));
 
                     promocao.setSite(site);
                     promocao.setHotel(hotel);
-                    promocao.setPreco(rs.getDouble("P.PRECO"));
-                    promocao.setDataInicial(rs.getTimestamp("P.DATAINICIAL"));
-                    promocao.setDataFinal(rs.getTimestamp("P.DATAFINAL"));
+                    promocao.setPreco(rs.getDouble("PRECO"));
+                    promocao.setDataInicial(rs.getTimestamp("DATAINICIAL"));
+                    promocao.setDataFinal(rs.getTimestamp("DATAFINAL"));
 
                     ret.add(promocao);
                 }
