@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
-@WebServlet(name = "NovoSiteServlet")
+@WebServlet(name = "NovoSiteServlet", urlPatterns = {"/NovoSiteServlet"})
 public class NovoSiteServlet extends HttpServlet {
 
     @Resource(name = "jdbc/PromocoesDBLocal")

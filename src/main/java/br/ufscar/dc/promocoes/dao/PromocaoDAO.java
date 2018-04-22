@@ -63,7 +63,7 @@ public class PromocaoDAO {
     public List<Promocao> listarTodasPromocoesFiltro(String hotelCNPJ, String siteURL) throws SQLException, NamingException {
         List<Promocao> ret = new ArrayList<>();
         try (Connection con = dataSource.getConnection();
-                PreparedStatement ps = con.prepareStatement(LISTAR_TODAS_PROMOCOES_POR_HOTEL_SQL)) {
+                PreparedStatement ps = con.prepareStatement(LISTAR_TODAS_PROMOCOES_FILTRO)) {
 
             ps.setString(1, hotelCNPJ);
             ps.setString(2, siteURL);
