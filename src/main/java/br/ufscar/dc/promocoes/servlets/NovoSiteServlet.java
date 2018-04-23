@@ -1,14 +1,11 @@
 package br.ufscar.dc.promocoes.servlets;
 
-import br.ufscar.dc.promocoes.beans.Hotel;
 import br.ufscar.dc.promocoes.beans.Site;
 import br.ufscar.dc.promocoes.beans.forms.SiteFormBean;
-import br.ufscar.dc.promocoes.dao.HotelDAO;
 import br.ufscar.dc.promocoes.dao.SiteDAO;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.annotation.Resource;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,13 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-@WebServlet(name = "NovoSiteServlet")
+@WebServlet(name = "NovoSiteServlet", urlPatterns = {"/NovoSiteServlet"})
 public class NovoSiteServlet extends HttpServlet {
 
     @Resource(name = "jdbc/PromocoesDBLocal")
@@ -31,49 +25,54 @@ public class NovoSiteServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.setCharacterEncoding("UTF-8");
+        String user_role = (String) request.getSession().getAttribute("role");
 
-        request.setAttribute("formEnviado", true);
+        if(user_role != null && user_role.equals("admin")){
+            request.setCharacterEncoding("UTF-8");
 
-        SiteFormBean siteForm = new SiteFormBean();
+            request.setAttribute("formEnviado", true);
 
-        try {
-            BeanUtils.populate(siteForm, request.getParameterMap());
+            SiteFormBean siteForm = new SiteFormBean();
 
-            request.setAttribute("novoSite", siteForm);
+            try {
+                BeanUtils.populate(siteForm, request.getParameterMap());
 
-            List<String> erros = siteForm.validar();
+                request.setAttribute("novoSite", siteForm);
 
-            if (erros != null) {
+                List<String> erros = siteForm.validar();
                 request.setAttribute("erros", erros);
-            } else {
-                SiteDAO siteDAO = new SiteDAO(dataSource);
 
-                try {
-                    Site novoSite = new Site();
+                if (erros.isEmpty()) {
+                    SiteDAO siteDAO = new SiteDAO(dataSource);
 
-                    novoSite.setNome(siteForm.getNome());
-                    novoSite.setSenha(siteForm.getSenha());
-                    novoSite.setUrl(siteForm.getUrl());
-                    novoSite.setTelefone(siteForm.getTelefone());
+                    try {
+                        Site novoSite = new Site();
 
-                    siteDAO.gravarSite(novoSite);
+                        novoSite.setNome(siteForm.getNome());
+                        novoSite.setSenha(siteForm.getSenha());
+                        novoSite.setUrl(siteForm.getUrl());
+                        novoSite.setTelefone(siteForm.getTelefone());
 
-                    request.removeAttribute("novoSite");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    request.setAttribute("mensagem", e.getLocalizedMessage());
-                    request.getRequestDispatcher("erro.jsp").forward(request, response);
+                        siteDAO.gravarSite(novoSite);
+
+                        request.removeAttribute("novoSite");
+                    } catch (SQLIntegrityConstraintViolationException e) {
+                        erros.add("Já existe um site com essa url");
+                    }
                 }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("mensagem", e.getLocalizedMessage());
+                request.getRequestDispatcher("erro.jsp").forward(request, response);
             }
 
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            request.setAttribute("mensagem", e.getLocalizedMessage());
+            request.getRequestDispatcher("siteForm.jsp").forward(request, response);
+        } else {
+            request.setAttribute("mensagem", "<strong>ERRO 401</strong>: Permissão negada.");
             request.getRequestDispatcher("erro.jsp").forward(request, response);
         }
 
-        request.getRequestDispatcher("siteForm.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

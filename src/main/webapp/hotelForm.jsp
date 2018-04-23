@@ -1,6 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<c:if test="${sessionScope.role != 'admin'}">
+    <c:redirect url="/"/>
+</c:if>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +18,7 @@
 
 <div class="container">
     <h1 class="title has-text-centered">Cadastro de Novo Hotel</h1>
-
+    <hr/>
     <div class="columns">
         <div class="column">
 
@@ -52,7 +56,7 @@
                         <input class="button is-link" type="submit" value="Enviar"/>
                     </div>
                     <div class="control">
-                        <a class="button" href="/">Cancelar</a>
+                        <a class="button is-danger" href="${home}">Cancelar</a>
                     </div>
                 </div>
 

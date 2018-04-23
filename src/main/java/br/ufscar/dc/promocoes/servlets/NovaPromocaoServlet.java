@@ -1,8 +1,12 @@
 package br.ufscar.dc.promocoes.servlets;
 
+import br.ufscar.dc.promocoes.beans.Hotel;
 import br.ufscar.dc.promocoes.beans.Promocao;
+import br.ufscar.dc.promocoes.beans.Site;
 import br.ufscar.dc.promocoes.beans.forms.PromocaoFormBean;
+import br.ufscar.dc.promocoes.dao.HotelDAO;
 import br.ufscar.dc.promocoes.dao.PromocaoDAO;
+import br.ufscar.dc.promocoes.dao.SiteDAO;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.annotation.Resource;
@@ -16,6 +20,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,53 +31,72 @@ public class NovaPromocaoServlet extends HttpServlet {
     @Resource(name = "jdbc/PromocoesDBLocal")
     DataSource dataSource;
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        request.setCharacterEncoding("UTF-8");
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        request.setAttribute("formEnviado", true);
+        String user_role = (String) request.getSession().getAttribute("role");
 
-        PromocaoFormBean promocaoForm = new PromocaoFormBean();
+        if (user_role != null && user_role.equals("hotel")) {
+            request.setCharacterEncoding("UTF-8");
 
-        try {
+            request.setAttribute("formEnviado", true);
 
-            BeanUtils.populate(promocaoForm, request.getParameterMap());
+            PromocaoFormBean promocaoForm = new PromocaoFormBean();
 
-            request.setAttribute("novaPromocao", promocaoForm);
+            try {
 
-            List<String> erros = promocaoForm.validar();
+                BeanUtils.populate(promocaoForm, request.getParameterMap());
 
-            if (erros != null) {
+                request.setAttribute("novaPromocao", promocaoForm);
+
+                List<String> erros = promocaoForm.validar();
                 request.setAttribute("erros", erros);
-            } else {
-                PromocaoDAO promocaoDAO = new PromocaoDAO(dataSource);
 
-                try {
-                    Promocao novaPromocao = new Promocao();
+                if (erros.isEmpty()) {
+                    PromocaoDAO promocaoDAO = new PromocaoDAO(dataSource);
 
-                    novaPromocao.setPreco(Double.parseDouble(promocaoForm.getPreco()));
-                    novaPromocao.setDataInicial(promocaoForm.getDataInicial());
-                    novaPromocao.setDataFinal(promocaoForm.getDataFinal());
-                    novaPromocao.setURLSite(promocaoForm.getURLSite());
-                    novaPromocao.setCNPJHotel(promocaoForm.getCNPJHotel());
+                    try {
 
-                    promocaoDAO.gravarPromocao(novaPromocao);
+                        Promocao novaPromocao = new Promocao();
 
-                    request.removeAttribute("novaPromocao");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    request.setAttribute("mensagem", e.getLocalizedMessage());
-                    request.getRequestDispatcher("erro.jsp").forward(request, response);
+
+                        Site site = new SiteDAO(dataSource).recuperarSite(promocaoForm.getURLSite());
+                        if (site == null) {
+                            erros.add("O site informado não existe");
+                        }
+
+                        Hotel hotel = new HotelDAO(dataSource).recuperarHotel(promocaoForm.getCNPJHotel());
+                        if (hotel == null) {
+                            erros.add("O CNPJ do hotel informado não existe");
+                        }
+
+                        if (erros.isEmpty()) {
+                            novaPromocao.setSite(site);
+                            novaPromocao.setHotel(hotel);
+                            novaPromocao.setPreco(Double.parseDouble(promocaoForm.getPreco()));
+                            novaPromocao.setDataInicial(promocaoForm.getDataInicial());
+                            novaPromocao.setDataFinal(promocaoForm.getDataFinal());
+
+                            promocaoDAO.gravarPromocao(novaPromocao);
+
+                            request.removeAttribute("novaPromocao");
+                        }
+                    } catch (SQLIntegrityConstraintViolationException e) {
+                        erros.add("Já existe uma promoção desse hotel no site informado");
+                    }
                 }
 
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("mensagem", e.getLocalizedMessage());
+                request.getRequestDispatcher("erro.jsp").forward(request, response);
             }
 
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            request.setAttribute("mensagem", e.getLocalizedMessage());
+            request.getRequestDispatcher("promocaoForm.jsp").forward(request, response);
+        } else {
+            request.setAttribute("mensagem", "<strong>ERRO 401</strong>: Permissão negada.");
             request.getRequestDispatcher("erro.jsp").forward(request, response);
         }
 
-        request.getRequestDispatcher("promocaoForm.jsp").forward(request, response);
 
     }
 

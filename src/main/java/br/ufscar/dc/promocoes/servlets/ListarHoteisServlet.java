@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "ListarHoteisServlet")
+@WebServlet(name = "ListarHoteisServlet", urlPatterns = {"/ListarHoteisServlet"})
 public class ListarHoteisServlet extends HttpServlet {
     @Resource(name = "jdbc/PromocoesDBLocal")
     DataSource dataSource;

@@ -7,12 +7,14 @@ import br.ufscar.dc.promocoes.dao.HotelDAO;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+@WebServlet(name = "NovoHotelServlet", urlPatterns = {"/NovoHotelServlet"})
 public class NovoHotelServlet extends HttpServlet {
 
     @Resource(name = "jdbc/PromocoesDBLocal")
@@ -28,50 +31,54 @@ public class NovoHotelServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.setCharacterEncoding("UTF-8");
+        String user_role = (String) request.getSession().getAttribute("role");
 
-        request.setAttribute("formEnviado", true);
+        if(user_role != null && user_role.equals("admin")){
+            request.setCharacterEncoding("UTF-8");
 
-        HotelFormBean hotelForm = new HotelFormBean();
+            request.setAttribute("formEnviado", true);
 
-        try {
-            BeanUtils.populate(hotelForm, request.getParameterMap());
+            HotelFormBean hotelForm = new HotelFormBean();
 
-            request.setAttribute("novoHotel", hotelForm);
+            try {
+                BeanUtils.populate(hotelForm, request.getParameterMap());
 
-            List<String> erros = hotelForm.validar();
+                request.setAttribute("novoHotel", hotelForm);
 
-            if (erros != null) {
+                List<String> erros = hotelForm.validar();
                 request.setAttribute("erros", erros);
-            } else {
-                HotelDAO hotelDAO = new HotelDAO(dataSource);
 
-                try {
-                    Hotel novoHotel = new Hotel();
+                if (erros.isEmpty()) {
+                    HotelDAO hotelDAO = new HotelDAO(dataSource);
 
-                    novoHotel.setNome(hotelForm.getNome());
-                    novoHotel.setCNPJ(hotelForm.getCnpj());
-                    novoHotel.setCidade(hotelForm.getCidade());
-                    novoHotel.setSenha(hotelForm.getSenha());
+                    try {
+                        Hotel novoHotel = new Hotel();
 
-                    hotelDAO.gravarHotel(novoHotel);
+                        novoHotel.setNome(hotelForm.getNome());
+                        novoHotel.setCNPJ(hotelForm.getCnpj());
+                        novoHotel.setCidade(hotelForm.getCidade());
+                        novoHotel.setSenha(hotelForm.getSenha());
 
-                    request.removeAttribute("novoHotel");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    request.setAttribute("mensagem", e.getLocalizedMessage());
-                    request.getRequestDispatcher("erro.jsp").forward(request, response);
+                        hotelDAO.gravarHotel(novoHotel);
+
+                        request.removeAttribute("novoHotel");
+                    } catch (SQLIntegrityConstraintViolationException e) {
+                        erros.add("Já exite um hotel com o mesmo CNPJ");
+                    }
+
                 }
 
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("mensagem", e.getLocalizedMessage());
+                request.getRequestDispatcher("erro.jsp").forward(request, response);
             }
 
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            request.setAttribute("mensagem", e.getLocalizedMessage());
+            request.getRequestDispatcher("hotelForm.jsp").forward(request, response);
+        } else {
+            request.setAttribute("mensagem", "<strong>ERRO 401</strong>: Permissão negada. Você deve se autenticar como administrador.");
             request.getRequestDispatcher("erro.jsp").forward(request, response);
         }
-
-        request.getRequestDispatcher("hotelForm.jsp").forward(request, response);
     }
 
     @Override
