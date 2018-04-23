@@ -34,7 +34,7 @@
                     <label class="label">CNPJ do Hotel</label>
                     <div class="control">
                         <input name="CNPJHotel" class="input" type="text"
-                               value="${sessionScope.hotel.CNPJHotel}" disabled>
+                               value="${sessionScope.usuario.getCNPJ()}" disabled>
                     </div>
                 </div>
 

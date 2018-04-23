@@ -36,11 +36,13 @@ public class NovaPromocaoServlet extends HttpServlet {
         String user_role = (String) request.getSession().getAttribute("role");
 
         if (user_role != null && user_role.equals("hotel")) {
+            Hotel hotel = (Hotel)request.getSession().getAttribute("usuario");
             request.setCharacterEncoding("UTF-8");
 
             request.setAttribute("formEnviado", true);
 
             PromocaoFormBean promocaoForm = new PromocaoFormBean();
+
 
             try {
 
@@ -62,11 +64,6 @@ public class NovaPromocaoServlet extends HttpServlet {
                         Site site = new SiteDAO(dataSource).recuperarSite(promocaoForm.getURLSite());
                         if (site == null) {
                             erros.add("O site informado não existe");
-                        }
-
-                        Hotel hotel = new HotelDAO(dataSource).recuperarHotel(promocaoForm.getCNPJHotel());
-                        if (hotel == null) {
-                            erros.add("O CNPJ do hotel informado não existe");
                         }
 
                         if (erros.isEmpty()) {

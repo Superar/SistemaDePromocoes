@@ -1,5 +1,8 @@
 package br.ufscar.dc.promocoes.servlets;
 
+import br.ufscar.dc.promocoes.beans.Administrador;
+import br.ufscar.dc.promocoes.beans.Hotel;
+import br.ufscar.dc.promocoes.beans.Site;
 import br.ufscar.dc.promocoes.dao.AdministradorDAO;
 import br.ufscar.dc.promocoes.dao.HotelDAO;
 import br.ufscar.dc.promocoes.dao.SiteDAO;
@@ -35,41 +38,47 @@ public class LoginServlet extends HttpServlet {
 
         try {
             if (role.equals("admin")) {
-                if (usuarioDAO.recuperarAdministrador(usuario) == null) {
+                Administrador admin = usuarioDAO.recuperarAdministrador(usuario);
+
+                if (admin == null) {
                     request.setAttribute("erro", "usuario nao existe");
                     request.getRequestDispatcher("loginForm.jsp").forward(request, response);
-                } else if (usuarioDAO.recuperarAdministrador(usuario).getSenha().equals(senha)) {
+                } else if (admin.getSenha().equals(senha)) {
                     request.getSession().setAttribute("role", "admin");
+                    request.getSession().setAttribute("usuario",admin);
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 } else {
                     request.setAttribute("erro", "senha invalida");
                     request.getRequestDispatcher("loginForm.jsp").forward(request, response);
                 }
             } else if (role.equals("site")) {
+                Site site = siteDAO.recuperarSite(usuario);
 
-                if (siteDAO.recuperarSite(usuario) == null) {
+                if (site == null) {
                     request.setAttribute("erro", "site nao cadastrado");
                     request.getRequestDispatcher("loginForm.jsp").forward(request, response);
-                } else if (siteDAO.recuperarSite(usuario).getSenha().equals(senha)) {
+                } else if (site.getSenha().equals(senha)) {
                     request.getSession().setAttribute("role", "site");
+                    request.getSession().setAttribute("usuario",site);
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 } else {
                     request.setAttribute("erro", "senha invalida");
                     request.getRequestDispatcher("loginForm.jsp").forward(request, response);
                 }
             } else if (role.equals("hotel")) {
-                if (hotelDAO.recuperarHotel(usuario) == null) {
+                Hotel hotel = hotelDAO.recuperarHotel(usuario);
+                if (hotel == null) {
                 request.setAttribute("erro", "hotel nao cadastrado");
                 request.getRequestDispatcher("loginForm.jsp").forward(request, response);
-            } else if (hotelDAO.recuperarHotel(usuario).getSenha().equals(senha)) {
-                    request.getSession().setAttribute("role", "site");
+            } else if (hotel.getSenha().equals(senha)) {
+                    request.getSession().setAttribute("role", "hotel");
+                    request.getSession().setAttribute("usuario",hotel);
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 } else {
                     request.setAttribute("erro", "senha invalida");
                     request.getRequestDispatcher("loginForm.jsp").forward(request, response);
                 }
             }
-
 
         } catch (SQLException | NamingException ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
