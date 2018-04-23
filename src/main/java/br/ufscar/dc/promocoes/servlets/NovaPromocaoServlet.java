@@ -78,7 +78,7 @@ public class NovaPromocaoServlet extends HttpServlet {
                             request.removeAttribute("novaPromocao");
                         }
                     } catch (SQLIntegrityConstraintViolationException e) {
-                        erros.add("Já existe uma promoção desse hotel no site informado");
+                        erros.add("Já existe uma promoção desse hotel no site informado com a mesma data");
                     }
                 }
 
