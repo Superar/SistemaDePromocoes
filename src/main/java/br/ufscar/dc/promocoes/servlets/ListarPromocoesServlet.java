@@ -32,9 +32,7 @@ public class ListarPromocoesServlet extends HttpServlet {
         if (user_role != null) {
 
             if (user_role.equals("site")) {
-                System.out.println("site top");
                 Site site = (Site)request.getSession().getAttribute("usuario");
-                System.out.println(site.getUrl());
 
                 try {
                     List<Promocao> promocoes = promocaoDAO.listarTodasPromocoesFiltro("", site.getUrl());
@@ -51,7 +49,7 @@ public class ListarPromocoesServlet extends HttpServlet {
                 Hotel hotel = (Hotel)request.getSession().getAttribute("usuario");
 
                 try {
-                    List<Promocao> promocoes = promocaoDAO.listarTodasPromocoesFiltro("", hotel.getCNPJ());
+                    List<Promocao> promocoes = promocaoDAO.listarTodasPromocoesFiltro(hotel.getCNPJ(),"");
 
                     request.setAttribute("listaPromocoes", promocoes);
 

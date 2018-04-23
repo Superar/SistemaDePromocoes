@@ -11,17 +11,17 @@
                     <div class="tags has-addons">
                         <c:if test="${sessionScope.role == 'admin'}">
                             <span class="tag is-dark">Administrador</span>
-                            <span class="tag">Nome do admin</span>
+                            <span class="tag">${sessionScope.usuario.login}</span>
                         </c:if>
 
                         <c:if test="${sessionScope.role == 'hotel'}">
                             <span class="tag is-dark">Hotel</span>
-                            <span class="tag">Nome do hotel</span>
+                            <span class="tag">${sessionScope.usuario.nome}</span>
                         </c:if>
 
                         <c:if test="${sessionScope.role == 'site'}">
                             <span class="tag is-dark">Site</span>
-                            <span class="tag">Nome do site</span>
+                            <span class="tag">${sessionScope.usuario.nome}</span>
                         </c:if>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <c:if test="${sessionScope.role != 'admin'}">
-    <c:redirect url="/"/>
+    <c:redirect url="/loginForm.jsp"/>
 </c:if>
 
 <!DOCTYPE html>

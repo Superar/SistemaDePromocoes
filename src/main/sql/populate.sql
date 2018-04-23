@@ -1,3 +1,5 @@
+INSERT INTO PROMOCOES.ADMINISTRADOR (LOGIN, SENHA) VALUES ('admin', 'admin');
+
 INSERT INTO PROMOCOES.SITE (URL, NOME, SENHA, TELEFONE) VALUES ('grupo.com', 'grupo', '123', '12345'),
                                                                ('abc.xyz', 'abc', 'hihi', '18456'),
                                                                ('habbo.com.br', 'habbo', 'lalala', '486453123');

@@ -16,7 +16,7 @@
 <jsp:include page="snippets/navbar.jsp"/>
 
 <div class="container">
-    <h1 class="title has-text-centered">Bem-vindo ao Sistema de Promocoes!</h1>
+    <h1 class="title has-text-centered">Bem-vindo ao Sistema de Promoções!</h1>
     <hr/>
 
     <c:if test="${sessionScope.role == 'admin'}">
@@ -43,7 +43,7 @@
     </c:if>
 
     <div class="box">
-        <h1 class="subtitle">Não logado</h1>
+        <h1 class="subtitle">Opção Geral</h1>
         <a class="button is-dark" href="ListarHoteisServlet">Listar Hotéis</a>
     </div>
 

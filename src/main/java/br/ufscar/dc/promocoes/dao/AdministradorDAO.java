@@ -36,7 +36,7 @@ public class AdministradorDAO {
     }
 
     public Administrador recuperarAdministrador(String login) throws SQLException, NamingException {
-        Administrador administrador = new Administrador();
+        Administrador administrador = null;
         try (Connection con = dataSource.getConnection();
                 PreparedStatement ps = con.prepareStatement(RECUPERAR_ADMINISTRADOR_SQL)) {
 
@@ -44,6 +44,7 @@ public class AdministradorDAO {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    administrador = new Administrador();
                     administrador.setLogin(rs.getString("LOGIN"));
                     administrador.setSenha(rs.getString("SENHA"));
                 }
