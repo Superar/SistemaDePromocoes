@@ -87,7 +87,6 @@ public class PromocaoFormBean {
             }
         }
 
-
         try {
             Double.parseDouble(this.preco);
         } catch (NumberFormatException e){
