@@ -31,7 +31,7 @@ CREATE TABLE Promocao
 	    dataInicial DATE NOT NULL,
 	    dataFinal DATE NOT NULL,
 
-	    CONSTRAINT primary_key_promocao PRIMARY KEY (urlSite, CNPJHotel)
+	    CONSTRAINT primary_key_promocao PRIMARY KEY (urlSite, CNPJHotel, dataInicial)
 );
 
 CREATE TABLE Administrador
