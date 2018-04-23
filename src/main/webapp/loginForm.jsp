@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<c:remove var="role"></c:remove>
 <html>
 <head>
     <link rel="stylesheet" href="style/main.css">

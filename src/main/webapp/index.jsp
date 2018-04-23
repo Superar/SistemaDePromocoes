@@ -1,7 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<c:set scope="session" var="role" value="hotel"/>
 <c:url var="home" value="/" scope="application"/>
 
 <!DOCTYPE html>
