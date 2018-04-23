@@ -32,6 +32,11 @@ public class Promocao {
         return preco;
     }
 
+    public String getPrecoString() {
+        return String.format("%1$,.2f", this.preco);
+    }
+
+
     public void setPreco(double preco) {
         this.preco = preco;
     }

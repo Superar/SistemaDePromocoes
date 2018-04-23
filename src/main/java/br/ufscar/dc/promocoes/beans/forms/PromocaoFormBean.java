@@ -3,6 +3,7 @@ package br.ufscar.dc.promocoes.beans.forms;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PromocaoFormBean {
@@ -58,11 +59,13 @@ public class PromocaoFormBean {
             erros.add("Informe o CNPJ do hotel");
         }
 
+        Date inicio=null, fim=null;
+
         if(dataInicial.isEmpty()){
             erros.add("Informe a data inicial");
         } else {
             try {
-                new SimpleDateFormat("dd/MM/yyyy").parse(dataInicial);
+                inicio = new SimpleDateFormat("dd/MM/yyyy").parse(dataInicial);
             }catch (ParseException e){
                 erros.add("Data Inicial: Formato de data incompatível (dd/mm/aaaa)");
             }
@@ -72,11 +75,18 @@ public class PromocaoFormBean {
             erros.add("Informe a data final");
         } else {
             try {
-                new SimpleDateFormat("dd/MM/yyyy").parse(dataFinal);
+                fim = new SimpleDateFormat("dd/MM/yyyy").parse(dataFinal);
             }catch (ParseException e){
                 erros.add("Data Final: Formato de data incompatível (dd/mm/aaaa)");
             }
         }
+
+        if(inicio != null && fim != null){
+            if(inicio.compareTo(fim) > 0){
+                erros.add("Data de inicio não pode ser depois da data de fim");
+            }
+        }
+
 
         try {
             Double.parseDouble(this.preco);

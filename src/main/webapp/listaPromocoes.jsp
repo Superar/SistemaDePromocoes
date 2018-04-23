@@ -39,7 +39,7 @@
                     <tr>
                         <td>${promocao.site.url}</td>
                         <td>${promocao.hotel.CNPJ}</td>
-                        <td>R$ ${promocao.preco}</td>
+                        <td>R$ ${promocao.getPrecoString()}</td>
                         <td>${promocao.getDataInicialString()} - ${promocao.getDataFinalString()}</td>
                     </tr>
                 </c:forEach>
