@@ -1,6 +1,8 @@
 package br.ufscar.dc.promocoes.servlets;
 
+import br.ufscar.dc.promocoes.beans.Hotel;
 import br.ufscar.dc.promocoes.beans.Promocao;
+import br.ufscar.dc.promocoes.beans.Site;
 import br.ufscar.dc.promocoes.dao.PromocaoDAO;
 
 import javax.annotation.Resource;
@@ -26,21 +28,37 @@ public class ListarPromocoesServlet extends HttpServlet {
 
         PromocaoDAO promocaoDAO = new PromocaoDAO(dataSource);
 
-        try {
-            List<Promocao> promocoes = promocaoDAO.listarTodasPromocoesFiltro("11111111111111", "");
-
-            request.setAttribute("listaPromocoes", promocoes);
-
-        } catch (SQLException | NamingException e) {
-            e.printStackTrace();
-
-        }
 
         if (user_role != null) {
 
-            if (user_role.equals("hotel")) {
+            if (user_role.equals("site")) {
+                System.out.println("site top");
+                Site site = (Site)request.getSession().getAttribute("usuario");
+                System.out.println(site.getUrl());
+
+                try {
+                    List<Promocao> promocoes = promocaoDAO.listarTodasPromocoesFiltro("", site.getUrl());
+
+                    request.setAttribute("listaPromocoes", promocoes);
+
+                } catch (SQLException | NamingException e) {
+                    e.printStackTrace();
+
+                }
                 request.getRequestDispatcher("listaPromocoes.jsp").forward(request, response);
-            } else if (user_role.equals("site")) {
+
+            } else if (user_role.equals("hotel")) {
+                Hotel hotel = (Hotel)request.getSession().getAttribute("usuario");
+
+                try {
+                    List<Promocao> promocoes = promocaoDAO.listarTodasPromocoesFiltro("", hotel.getCNPJ());
+
+                    request.setAttribute("listaPromocoes", promocoes);
+
+                } catch (SQLException | NamingException e) {
+                    e.printStackTrace();
+
+                }
                 request.getRequestDispatcher("listaPromocoes.jsp").forward(request, response);
             }
         }

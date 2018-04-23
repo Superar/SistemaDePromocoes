@@ -55,9 +55,6 @@ public class PromocaoFormBean {
         if(this.URLSite.isEmpty()){
             erros.add("Informe a url do site");
         }
-        if (this.CNPJHotel.isEmpty()){
-            erros.add("Informe o CNPJ do hotel");
-        }
 
         Date inicio=null, fim=null;
 
