@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <h:outputStylesheet name="main.css" library="css"/>
+    <!--<h:outputScript name="default.js" library="js" />-->
+    <title>Sistema de Promoções</title>
+</h:head>
+
+<h:body>
+    <nav class="navbar is-info">
+        <div class="navbar-start">
+            <a class="navbar-item" jsf:outcome="index">Home</a>
+        </div>
+
+        <!--Se há uma pessoa logada no sistema-->
+        <div class="navbar-end" jsf:rendered="#{auth.isLogged()}">
+            <div class="navbar-item">
+                <div class="tags has-addons">
+                    <span class="tag is-dark">#{auth.role}</span>
+                    <span class="tag">#{auth.nome}</span>
+                </div>
+            </div>
+
+            <div class="navbar-item">
+                <h:form>
+                    <h:commandButton class="button is-outlined is-inverted is-info" value="Logout" action="#{auth.logout()}"/>
+                </h:form>
+            </div>
+        </div>
+        <!--Se não há ninguém logado no sistema-->
+        <div class="navbar-end" jsf:rendered="#{not auth.isLogged()}">
+            <div class="navbar-item">
+                <h:form>
+                    <h:commandButton class="button is-outlined is-inverted is-info" value="Login" action="#{auth.logout()}"/>
+                </h:form>
+            </div>
+        </div>
+    </nav>
+
+    <div id="body" class="container">
+        <ui:insert name="content">Content</ui:insert>
+    </div>
+</h:body>
+</html>

@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Context path="/SistemaDePromocoes">
-    <ResourceLink global="jdbc/PromocoesDB" name="jdbc/PromocoesDBLocal" type="javax.sql.DataSource"/>
-</Context>

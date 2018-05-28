@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsp="http://xmlns.jcp.org/jsf">
+<h:body>
+    <ui:composition template="templates/default.xhtml">
+        <ui:define name="content">
+            <h1 class="title has-text-centered">Bem-vindo ao Sistema de Promoções!</h1>
+            <hr/>
+
+            <div class="box" jsp:rendered="#{auth.isAdmin()}">
+                <h1 class="subtitle">Adminstrador</h1>
+                <a class="button is-success" href="hotelForm.jsp">Cadastrar um hotel</a>
+                <a class="button is-info" href="siteForm.jsp">Cadastrar um site</a>
+            </div>
+
+            <div class="box" jsp:rendered="#{auth.isHotel()}">
+                <h1 class="subtitle">Hotel</h1>
+                <a class="button is-success" href="promocaoForm.jsp">Cadastrar Promoção</a>
+                <a class="button is-info" href="ListarPromocoesServlet">Listar minhas promoções</a>
+            </div>
+
+            <div class="box" jsp:rendered="#{auth.isSite()}">
+                <h1 class="subtitle">Site</h1>
+                <a class="button is-success" href="ListarPromocoesServlet">Listar promoções</a>
+            </div>
+
+            <div class="box">
+                <h1 class="subtitle">Opção Geral</h1>
+                <a class="button is-dark" href="ListarHoteisServlet">Listar Hotéis</a>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
