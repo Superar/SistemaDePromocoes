@@ -20,7 +20,7 @@
 
             <div class="box" jsp:rendered="#{auth.isHotel()}">
                 <h1 class="subtitle">Hotel</h1>
-                <a class="button is-success" href="promocaoForm.jsp">Cadastrar Promoção</a>
+                <h:link class="button is-success" outcome="promocaoForm">Cadastrar Promoção</h:link>
                 <a class="button is-info" href="ListarPromocoesServlet">Listar minhas promoções</a>
             </div>
 

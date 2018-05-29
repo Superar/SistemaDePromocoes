@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <h:head>
+        <title>Cadastrar Nova Promoção</title>
+    </h:head>
+    <f:view>
+        <f:metadata>
+            <f:viewAction action="#{novaPromocao.checkPermission}" />
+        </f:metadata>
+        <h:body>
+            <ui:composition template="templates/default.xhtml">
+                <ui:define name="content">
+                    <div class="container">
+                        <h1 class="title has-text-centered">Nova Promoção</h1>
+                        <hr />
+                        <div class="columns">
+                            <div class="column">
+
+                                <h:form class="form">
+                                    <div class="field">
+                                        <label class="label">URL do Site</label>
+                                        <div class="control">
+                                            <h:inputText id="URLSite" class="input" label="URL do Site" required="true" value="#{novaPromocao.dadosPromocao.site.url}" />
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label">CNPJ do Hotel</label>
+                                        <div class="control">
+                                            <h:inputText id="CNPJHotel" class="input" label="CNPJ do Hotel" required="true" disabled="true" value="#{auth.id}"  />
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label">Preço</label>
+                                        <div class="control">
+                                            <h:inputText id="preco" class="input" label="Preço" required="true" value="#{novaPromocao.dadosPromocao.preco}" />
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label">Data Inicial</label>
+                                        <div class="control">
+                                            <h:inputText id="dataInicial" class="input" required="true" value="#{novaPromocao.dadosPromocao.dataInicial}">
+                                                <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                            </h:inputText>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label">Data do Fim</label>
+                                        <div class="control">
+                                            <h:inputText id="dataFinal" class="input" required="true" value="#{novaPromocao.dadosPromocao.dataFinal}">
+                                                <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
+                                            </h:inputText>
+                                        </div>
+                                    </div>
+
+                                    <div class="field is-grouped">
+                                        <div class="control">
+                                            <h:commandButton class="button is-link" value="Enviar" action="#{novaPromocao.gravarPromocao()}" />
+                                        </div>
+                                        <div class="control">
+                                            <h:link class="button is-danger" outcome="index">Cancelar</h:link>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+
+                            <div class="column">
+                                <div jsf:rendered="#{mensagemHandler.mostrar}" class="notification #{mensagemHandler.tipoMensagem} content">
+                                    <h2 class="has-text-white">#{mensagemHandler.texto}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ui:define>
+            </ui:composition>
+        </h:body>
+    </f:view>
+</html>
+
