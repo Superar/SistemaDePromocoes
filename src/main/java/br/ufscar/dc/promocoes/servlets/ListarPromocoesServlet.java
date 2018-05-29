@@ -6,6 +6,7 @@ import br.ufscar.dc.promocoes.beans.Site;
 import br.ufscar.dc.promocoes.dao.PromocaoDAO;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,14 +21,11 @@ import java.util.List;
 @WebServlet(name = "ListarPromocoesServlet", urlPatterns = {"/ListarPromocoesServlet"})
 public class ListarPromocoesServlet extends HttpServlet {
 
-    @Resource(name = "jdbc/PromocoesDBLocal")
-    DataSource dataSource;
+    @Inject
+    PromocaoDAO promocaoDAO;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String user_role = (String) request.getSession().getAttribute("role");
-
-        PromocaoDAO promocaoDAO = new PromocaoDAO(dataSource);
-
 
         if (user_role != null) {
 
