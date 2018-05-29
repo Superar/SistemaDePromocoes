@@ -6,8 +6,10 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
+
 <h:head>
     <h:outputStylesheet library="css" name="main.css"/>
+    <h:outputScript name="default.js" library="js" />
     <title>Login</title>
 </h:head>
 
@@ -25,7 +27,7 @@
                                            type="text"
                                            placeholder="Seu usuario"
                                            autofocus=""
-                                           jsf:value="#{auth.nome}"
+                                           jsf:value="#{auth.id}"
                                            jsf:required="true"
                                            jsf:label="Usuario"
                                            jsf:id="usuario"/>
@@ -38,6 +40,7 @@
                                     <input class="input is-large"
                                            type="password"
                                            placeholder="Sua senha"
+                                           jsf:value="#{auth.senha}"
                                            jsf:required="true"
                                            jsf:label="Senha"
                                            jsf:id="senha"/>
@@ -47,24 +50,24 @@
 
 
                             <h:selectOneRadio id="tipo_conta" required="true" value="#{auth.role}" styleClass="">
-                                <f:selectItem  itemValue="administrador" itemLabel="Administrador" />
-                                <f:selectItem itemValue="hotel" itemLabel="Hotel" />
-                                <f:selectItem itemValue="site" itemLabel="Site" />
+                                <f:selectItem itemValue="administrador" itemLabel="Administrador"/>
+                                <f:selectItem itemValue="hotel" itemLabel="Hotel"/>
+                                <f:selectItem itemValue="site" itemLabel="Site"/>
                             </h:selectOneRadio>
                             <h:message for="tipo_conta" class="has-text-danger"/>
 
-                            <h:commandButton class="button is-block is-info is-large is-fullwidth" value="Login" action="#{auth.login()}"/>
+                            <h:commandButton class="button is-block is-info is-large is-fullwidth" value="Login"
+                                             action="#{auth.login()}"/>
                         </h:form>
-                        <!--<c:if test="${not empty requestScope.erro}">-->
-                            <!--<div class="notification is-danger">-->
-                                <!--<h3>Usuario ou senha invalida</h3>-->
-                            <!--</div>-->
-                        <!--</c:if>-->
-                        <!--<c:remove var="erro" scope="request"/>-->
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <div jsf:rendered="#{mensagemHandler.mostrar}" class="notification #{mensagemHandler.tipoMensagem}">
+        <button class="delete close"></button>
+        #{mensagemHandler.texto}
+    </div>
 </h:body>
 </html>

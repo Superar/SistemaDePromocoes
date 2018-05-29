@@ -9,6 +9,7 @@ import br.ufscar.dc.promocoes.dao.SiteDAO;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +23,13 @@ import java.util.List;
 @WebServlet(name = "NovaPromocaoServlet", urlPatterns = {"/NovaPromocaoServlet"})
 public class NovaPromocaoServlet extends HttpServlet {
 
-    @Resource(name = "jdbc/PromocoesDBLocal")
-    DataSource dataSource;
+    @Inject
+    PromocaoDAO promocaoDAO;
+
+    @Inject
+    SiteDAO siteDAO;
+
+
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -48,14 +54,14 @@ public class NovaPromocaoServlet extends HttpServlet {
                 request.setAttribute("erros", erros);
 
                 if (erros.isEmpty()) {
-                    PromocaoDAO promocaoDAO = new PromocaoDAO(dataSource);
+
 
                     try {
 
                         Promocao novaPromocao = new Promocao();
 
 
-                        Site site = new SiteDAO(dataSource).recuperarSite(promocaoForm.getURLSite());
+                        Site site =siteDAO.recuperarSite(promocaoForm.getURLSite());
                         if (site == null) {
                             erros.add("O site informado não existe");
                         }

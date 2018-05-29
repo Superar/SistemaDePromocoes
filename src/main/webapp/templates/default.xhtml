@@ -10,14 +10,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <h:outputStylesheet name="main.css" library="css"/>
-    <!--<h:outputScript name="default.js" library="js" />-->
+    <h:outputScript name="default.js" library="js" />
+
     <title>Sistema de Promoções</title>
 </h:head>
 
 <h:body>
     <nav class="navbar is-info">
         <div class="navbar-start">
-            <a class="navbar-item" jsf:outcome="index">Home</a>
+            <h:link class="navbar-item" outcome="index">Home</h:link>
         </div>
 
         <!--Se há uma pessoa logada no sistema-->

@@ -10,9 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Resource;
+import javax.enterprise.context.ApplicationScoped;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+@ApplicationScoped
 public class PromocaoDAO {
 
     private final static String CRIAR_PROMOCAO_SQL = "INSERT INTO PROMOCOES.PROMOCAO"
@@ -41,11 +44,8 @@ public class PromocaoDAO {
             + " UNION "
             + LISTAR_TODAS_PROMOCOES_POR_SITE_SQL;
 
-    DataSource dataSource;
-
-    public PromocaoDAO(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    @Resource(name = "jdbc/PromocoesDBLocal")
+    private DataSource dataSource;
 
     public Promocao gravarPromocao(Promocao promocao) throws SQLException, NamingException {
         try (Connection con = dataSource.getConnection();

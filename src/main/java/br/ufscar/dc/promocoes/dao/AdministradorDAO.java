@@ -1,14 +1,19 @@
 package br.ufscar.dc.promocoes.dao;
 
 import br.ufscar.dc.promocoes.beans.Administrador;
+
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.annotation.Resource;
+import javax.enterprise.context.ApplicationScoped;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-public class AdministradorDAO {
+@ApplicationScoped
+public class AdministradorDAO implements Serializable{
 
     private final static String CRIAR_ADMINISTRADOR_SQL = "INSERT INTO PROMOCOES.ADMINISTRADOR"
             + " (LOGIN, SENHA)"
@@ -19,11 +24,8 @@ public class AdministradorDAO {
             + " FROM PROMOCOES.ADMINISTRADOR"
             + " WHERE LOGIN = ?";
 
-    DataSource dataSource;
-
-    public AdministradorDAO(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    @Resource(name = "jdbc/PromocoesDBLocal")
+    private DataSource dataSource;
 
     public Administrador gravarAdministrador(Administrador administrador) throws SQLException, NamingException {
         try (Connection con = dataSource.getConnection();

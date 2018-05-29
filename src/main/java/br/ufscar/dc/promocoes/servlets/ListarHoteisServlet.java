@@ -4,6 +4,7 @@ import br.ufscar.dc.promocoes.beans.Hotel;
 import br.ufscar.dc.promocoes.dao.HotelDAO;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,13 +16,11 @@ import java.util.List;
 
 @WebServlet(name = "ListarHoteisServlet", urlPatterns = {"/ListarHoteisServlet"})
 public class ListarHoteisServlet extends HttpServlet {
-    @Resource(name = "jdbc/PromocoesDBLocal")
-    DataSource dataSource;
+    @Inject
+    HotelDAO hotelDAO;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        HotelDAO hotelDAO = new HotelDAO(dataSource);
 
         String cidade = request.getParameter("cidade");
         List<Hotel> todosHoteis = null;

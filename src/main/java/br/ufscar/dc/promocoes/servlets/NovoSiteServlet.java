@@ -6,6 +6,7 @@ import br.ufscar.dc.promocoes.dao.SiteDAO;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +20,8 @@ import java.util.List;
 @WebServlet(name = "NovoSiteServlet", urlPatterns = {"/NovoSiteServlet"})
 public class NovoSiteServlet extends HttpServlet {
 
-    @Resource(name = "jdbc/PromocoesDBLocal")
-    DataSource dataSource;
+    @Inject
+    SiteDAO siteDAO;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -43,7 +44,6 @@ public class NovoSiteServlet extends HttpServlet {
                 request.setAttribute("erros", erros);
 
                 if (erros.isEmpty()) {
-                    SiteDAO siteDAO = new SiteDAO(dataSource);
 
                     try {
                         Site novoSite = new Site();
