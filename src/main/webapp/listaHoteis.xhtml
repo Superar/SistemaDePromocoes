@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:jsf="http://xmlns.jcp.org/jsf">
+<h:body>
+    <ui:composition template="templates/default.xhtml">
+        <ui:define name="content">
+            <h1 class="title has-text-centered">Lista de Hotéis</h1>
+
+            <h:form action="ListarHoteisServlet" method="get">
+                <div class="field has-addons">
+                    <div class="control">
+                        <h:inputText class="input" id="cidade" value="#{listaHoteis.cidadeFiltro}" name="cidade" type="text" placeholder="Procurar pela cidade">
+                        </h:inputText>
+                    </div>
+
+                    <div class="control">
+                        <h:commandButton value="Procurar" class="button is-info">
+                            <f:ajax execute="cidade"
+                                    render="lista_hoteis"
+                                    listener="#{listaHoteis.aplicarFiltro()}" />
+                        </h:commandButton>
+                    </div>
+                </div>
+            </h:form>
+
+            <hr/>
+
+            <div jsf:id="lista_hoteis">
+                <h2 jsf:rendered="#{empty listaHoteis.hoteis}" class="subitle has-text-centered">Não há hoteis!</h2>
+
+                <table jsf:rendered="#{not empty listaHoteis.hoteis}" class="table is-hoverable is-fullwidth">
+                    <tr>
+                        <th>Nome</th>
+                        <th>Cidade</th>
+                        <th>CNPJ</th>
+                    </tr>
+
+                    <ui:repeat value="#{listaHoteis.hoteis}" var="hotel">
+                        <tr>
+                            <td>#{hotel.nome}</td>
+                            <td>#{hotel.cidade}</td>
+                            <td>#{hotel.CNPJ}</td>
+                        </tr>
+                    </ui:repeat>
+                </table>
+            </div>
+
+
+
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
