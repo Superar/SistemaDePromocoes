@@ -8,9 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Resource;
+import javax.enterprise.context.ApplicationScoped;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+@ApplicationScoped
 public class HotelDAO {
 
     private final static String CRIAR_HOTEL_SQL = "INSERT INTO PROMOCOES.HOTEL"
@@ -31,11 +34,8 @@ public class HotelDAO {
             + " FROM PROMOCOES.HOTEL"
             + " WHERE CNPJ = ?";
 
-    DataSource dataSource;
-
-    public HotelDAO(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    @Resource(name = "jdbc/PromocoesDBLocal")
+    private DataSource dataSource;
 
     public Hotel gravarHotel(Hotel hotel) throws SQLException, NamingException {
         try (Connection con = dataSource.getConnection();

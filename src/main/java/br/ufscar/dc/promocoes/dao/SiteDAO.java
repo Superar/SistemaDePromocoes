@@ -6,9 +6,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.annotation.Resource;
+import javax.enterprise.context.ApplicationScoped;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+@ApplicationScoped
 public class SiteDAO {
 
     private final static String CRIAR_SITE_SQL = "INSERT INTO PROMOCOES.SITE"
@@ -20,11 +23,8 @@ public class SiteDAO {
             + " FROM PROMOCOES.SITE"
             + " WHERE URL = ?";
 
-    DataSource dataSource;
-
-    public SiteDAO(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    @Resource(name = "jdbc/PromocoesDBLocal")
+    private DataSource dataSource;
 
     public Site gravarSite(Site site) throws SQLException, NamingException {
         try (Connection con = dataSource.getConnection();
