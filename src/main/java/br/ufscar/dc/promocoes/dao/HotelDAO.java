@@ -27,7 +27,7 @@ public class HotelDAO {
     private final static String LISTAR_TODOS_HOTEIS_POR_CIDADE_SQL = "SELECT"
             + " CNPJ, NOME, SENHA, CIDADE"
             + " FROM PROMOCOES.HOTEL"
-            + " WHERE CIDADE = ?";
+            + " WHERE CIDADE LIKE ?";
 
     private final static String RECUPERAR_HOTEL_SQL = "SELECT"
             + " CNPJ, NOME, SENHA, CIDADE"
@@ -39,7 +39,7 @@ public class HotelDAO {
 
     public Hotel gravarHotel(Hotel hotel) throws SQLException, NamingException {
         try (Connection con = dataSource.getConnection();
-             PreparedStatement ps = con.prepareStatement(CRIAR_HOTEL_SQL);) {
+             PreparedStatement ps = con.prepareStatement(CRIAR_HOTEL_SQL)) {
             ps.setString(1, hotel.getCNPJ());
             ps.setString(2, hotel.getNome());
             ps.setString(3, hotel.getSenha());
@@ -74,7 +74,7 @@ public class HotelDAO {
         try (Connection con = dataSource.getConnection();
              PreparedStatement ps = con.prepareStatement(LISTAR_TODOS_HOTEIS_POR_CIDADE_SQL)) {
 
-            ps.setString(1, cidade);
+            ps.setString(1, '%' + cidade + '%');
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -88,6 +88,7 @@ public class HotelDAO {
                 }
             }
         }
+
         return ret;
     }
 
@@ -110,6 +111,7 @@ public class HotelDAO {
                 }
             }
         }
+
         return hotel;
     }
 }
