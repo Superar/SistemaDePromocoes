@@ -17,32 +17,39 @@ import java.util.List;
 @SessionScoped
 public class NovoSite implements Serializable {
     Site dadoSite;
-    SiteDAO siteDAO;
-    @Inject Auth auth;
 
-    public NovoSite(){
+    @Inject
+    SiteDAO siteDAO;
+
+    @Inject
+    Auth auth;
+
+    public NovoSite() {
         dadoSite = new Site();
     }
 
     public Site getDadoSite() {
         return dadoSite;
     }
+
     public void setDadoSite(Site dadoSite) {
         this.dadoSite = dadoSite;
     }
 
 
-    public void cadastrar() throws SQLException, NamingException {
-        if(auth.isAdmin()){
+    public String cadastrar() throws SQLException, NamingException {
+        if (auth.isAdmin()) {
             try {
                 siteDAO.gravarSite(dadoSite);
                 //setar mensagem site cadastrado com sucesso
-            }catch (SQLIntegrityConstraintViolationException e) {
-                    //setar mensagem site ja cadastrado
-                }
-
+            } catch (SQLIntegrityConstraintViolationException e) {
+                //setar mensagem site ja cadastrado
+            }
+            return "siteForm";
+        } else {
+            //setar mensagem ("mensagem", "<strong>ERRO 401</strong>: Permissão negada.");
+            return "erro";
         }
 
     }
-
 }
