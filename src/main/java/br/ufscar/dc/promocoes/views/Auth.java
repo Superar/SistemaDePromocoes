@@ -108,7 +108,7 @@ public class Auth implements Serializable {
 
                 else {
                     nome = admin.getLogin();
-                    return "index?faces-redirect=true";
+                    return "index";
                 }
 
 
@@ -123,7 +123,7 @@ public class Auth implements Serializable {
 
                 else {
                     nome = site.getNome();
-                    return "index?faces-redirect=true";
+                    return "index";
                 }
 
             } else if (role == Role.HOTEL) {
@@ -136,16 +136,18 @@ public class Auth implements Serializable {
 
                 else {
                     nome = hotel.getNome();
-                    return "index?faces-redirect=true";
+                    return "index";
                 }
             }
 
         } catch (SQLException | NamingException ex) {
             Logger.getLogger(Auth.class.getName()).log(Level.SEVERE, null, ex);
-            return "errors?faces-redirect=true";
+            msg.setMensagem(true, ex.getMessage(), MensagemHandler.TipoMensagem.TIPO_ERRO);
+            return "error";
         }
 
         senha = "";
+        role = Role.NONE;
         return "loginForm";
     }
 
