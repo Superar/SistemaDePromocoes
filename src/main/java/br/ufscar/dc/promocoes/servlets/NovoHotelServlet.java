@@ -6,6 +6,7 @@ import br.ufscar.dc.promocoes.dao.HotelDAO;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,9 @@ import java.util.List;
 
 @WebServlet(name = "NovoHotelServlet", urlPatterns = {"/NovoHotelServlet"})
 public class NovoHotelServlet extends HttpServlet {
+
+    @Inject
+    HotelDAO hotelDAO;
 
     @Resource(name = "jdbc/PromocoesDBLocal")
     DataSource dataSource;
@@ -43,7 +47,6 @@ public class NovoHotelServlet extends HttpServlet {
                 request.setAttribute("erros", erros);
 
                 if (erros.isEmpty()) {
-                    HotelDAO hotelDAO = new HotelDAO(dataSource);
 
                     try {
                         Hotel novoHotel = new Hotel();
