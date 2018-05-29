@@ -24,6 +24,9 @@ public class NovoSite implements Serializable {
     @Inject
     Auth auth;
 
+    @Inject
+    MensagemHandler handler;
+
     public NovoSite() {
         dadoSite = new Site();
     }
@@ -41,15 +44,15 @@ public class NovoSite implements Serializable {
         if (auth.isAdmin()) {
             try {
                 siteDAO.gravarSite(dadoSite);
-                //setar mensagem site cadastrado com sucesso
+                handler.setMensagem(true, "Site cadastrado com sucesso", MensagemHandler.TipoMensagem.TIPO_SUCESSO);
             } catch (SQLIntegrityConstraintViolationException e) {
-                //setar mensagem site ja cadastrado
+                handler.setMensagem(true, "URL já cadastrada", MensagemHandler.TipoMensagem.TIPO_ERRO);
             }
             return "siteForm";
-        } else {
+        }/* else {
             //setar mensagem ("mensagem", "<strong>ERRO 401</strong>: Permissão negada.");
             return "erro";
-        }
-
+        }*/
+        return "siteForm";
     }
 }
