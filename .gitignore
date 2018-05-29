@@ -26,3 +26,6 @@ nbproject/private/
 target/
 .idea/
 *.iml
+/src/main/webapp/WEB-INF/glassfish-resources.xml
+/src/main/webapp/META-INF/context.xml
+/nb-configuration.xml
