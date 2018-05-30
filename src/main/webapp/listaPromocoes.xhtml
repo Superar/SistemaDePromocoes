@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <h:head>
+        <title>Lista de Promoções</title>
+    </h:head>
+    <f:view>
+        <f:metadata>
+            <f:viewAction action="#{listaPromocoes.checkPermission}" />
+        </f:metadata>
+        <h:body>
+            <ui:composition template="templates/default.xhtml">
+                <ui:define name="content">
+                    <h1 class="title has-text-centered">Lista de Promoções</h1>
+
+                    <h2 jsf:rendered="#{empty listaPromocoes.promocoes}" class="subtitle has-text-centered">Não há promoções!</h2>
+
+                    <table jsf:rendered="#{not empty listaPromocoes.promocoes}" class="table is-hoverable is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>Site</th>
+                                <th>Hotel</th>
+                                <th>Preço</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <ui:repeat value="#{listaPromocoes.promocoes}" var="promocao">
+                                <tr>
+                                    <td>#{promocao.site.url}</td>
+                                    <td>#{promocao.hotel.CNPJ}</td>
+                                    <td>R$ #{promocao.preco}</td>
+                                    <td>
+                                        <h:outputText value="#{promocao.dataInicial}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                        -
+                                        <h:outputText value="#{promocao.dataFinal}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </td>
+                                </tr>
+                            </ui:repeat>
+                        </tbody>
+                    </table>
+
+                </ui:define>
+            </ui:composition>
+        </h:body>
+    </f:view>
+</html>
+
