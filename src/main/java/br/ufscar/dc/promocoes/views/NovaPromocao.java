@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.naming.NamingException;
@@ -47,7 +45,7 @@ public class NovaPromocao implements Serializable {
 
     public String checkPermission() throws IOException {
         if (!hotel.isHotel()) {
-            return "index";
+            return "index?faces-redirect=true";
         }
         return null;
     }

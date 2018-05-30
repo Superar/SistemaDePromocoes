@@ -47,7 +47,7 @@ public class ListaPromocoes {
 
     public String checkPermission() throws IOException {
         if (!auth.isHotel() & !auth.isSite()) {
-            return "index";
+            return "index?faces-redirect=true";
         }
         return null;
     }
