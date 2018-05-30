@@ -14,8 +14,8 @@
 
             <div class="box" jsp:rendered="#{auth.isAdmin()}">
                 <h1 class="subtitle">Adminstrador</h1>
-                <a class="button is-success" href="hotelForm.jsp">Cadastrar um hotel</a>
-                <a class="button is-info" href="siteForm.jsp">Cadastrar um site</a>
+                <h:link class="button is-success" outcome="hotelForm">Cadastrar um hotel</h:link>
+                <h:link class="button is-info" outcome="siteForm">Cadastrar um site</h:link>
             </div>
 
             <div class="box" jsp:rendered="#{auth.isHotel()}">
