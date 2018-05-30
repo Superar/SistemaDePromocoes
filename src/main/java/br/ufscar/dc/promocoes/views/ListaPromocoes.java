@@ -15,10 +15,13 @@ import javax.naming.NamingException;
 @RequestScoped
 public class ListaPromocoes {
 
-    @Inject Auth hotel;
-    @Inject PromocaoDAO promocaoDAO;
-    @Inject MensagemHandler msgHandler;
-    
+    @Inject
+    Auth auth;
+    @Inject
+    PromocaoDAO promocaoDAO;
+    @Inject
+    MensagemHandler msgHandler;
+
     List<Promocao> promocoes;
 
     public List<Promocao> getPromocoes() {
@@ -28,21 +31,25 @@ public class ListaPromocoes {
     public void setPromocoes(List<Promocao> promocoes) {
         this.promocoes = promocoes;
     }
-    
+
     @PostConstruct
     public void init() {
         try {
-            promocoes = promocaoDAO.listarTodasPromocoesFiltro(hotel.getId(), "");
+            if (auth.isHotel()) {
+                promocoes = promocaoDAO.listarTodasPromocoesFiltro(auth.getId(), "");
+            } else if (auth.isSite()) {
+                promocoes = promocaoDAO.listarTodasPromocoesFiltro("", auth.getId());
+            }
         } catch (SQLException | NamingException e) {
             msgHandler.setMensagem(true, e.getLocalizedMessage(), MensagemHandler.TipoMensagem.TIPO_ERRO);
         }
     }
-    
+
     public String checkPermission() throws IOException {
-        if (!hotel.isHotel()) {
+        if (!auth.isHotel() & !auth.isSite()) {
             return "index";
         }
         return null;
     }
-    
+
 }
