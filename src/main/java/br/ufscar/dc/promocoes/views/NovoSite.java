@@ -49,10 +49,9 @@ public class NovoSite implements Serializable {
                 handler.setMensagem(true, "URL já cadastrada", MensagemHandler.TipoMensagem.TIPO_ERRO);
             }
             return "siteForm";
-        }/* else {
-            //setar mensagem ("mensagem", "<strong>ERRO 401</strong>: Permissão negada.");
+        } else {
+            handler.setMensagem(true, "<strong>ERRO 401</strong>: Permissão negada", MensagemHandler.TipoMensagem.TIPO_ERRO);
             return "erro";
-        }*/
-        return "siteForm";
+        }
     }
 }

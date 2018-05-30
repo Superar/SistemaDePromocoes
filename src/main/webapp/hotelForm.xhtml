@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+    <h:outputStylesheet library="css" name="main.css"/>
+    <title>Cadastrar Novo Hotel</title>
+</h:head>
+<h:body>
+    <ui:composition template="templates/default.xhtml">
+        <ui:define name="content">
+            <div class="container">
+                <h1 class="title has-text-centered">Cadastro de Novo Site</h1>
+                <hr/>
+                <div class="columns">
+                    <div class="column">
+                        <h:form class="form" action="NovoHotelServlet" method="post">
+                        <div class="field">
+                            <label class="label">Nome</label>
+                            <div class="control">
+                                <label>
+                                    <input class="input"
+                                           type="text"
+                                           jsf:value="#{novoHotel.dadoHotel.nome}"
+                                           jsf:required="true"
+                                           jsf:label="nome"
+                                           jsf:id="nome"/>
+                                    <h:message for="nome" class="has-text-danger"/>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">CNPJ</label>
+                            <div class="control">
+                                <label>
+                                    <input class="input"
+                                           type="text"
+                                           jsf:value="#{novoHotel.dadoHotel.CNPJ}"
+                                           jsf:required="true"
+                                           jsf:label="CNPJ"
+                                           jsf:id="CNPJ"/>
+                                    <h:message for="CNPJ" class="has-text-danger"/>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Senha</label>
+                            <div class="control">
+                                <label>
+                                    <input class="input"
+                                           type="password"
+                                           jsf:value="#{novoHotel.dadoHotel.senha}"
+                                           jsf:required="true"
+                                           jsf:label="senha"
+                                           jsf:id="senha"/>
+                                    <h:message for="senha" class="has-text-danger"/>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Cidade</label>
+                            <div class="control">
+                                <label>
+                                    <input class="input"
+                                           type="text"
+                                           jsf:value="#{novoHotel.dadoHotel.cidade}"
+                                           jsf:required="true"
+                                           jsf:label="cidade"
+                                           jsf:id="cidade"/>
+                                    <h:message for="cidade" class="has-text-danger"/>
+                                </label>
+                            </div>
+                        </div>
+                            <div class="field is-grouped">
+                                <div class="control">
+                                    <h:commandButton class="button is-link" id="submit" value="Enviar"
+                                                     action="#{novoHotel.cadastrar()}"/>
+                                </div>
+                                <div class="control">
+                                    <h:link class="button is-danger" outcome="index">Cancelar</h:link>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div jsf:rendered="#{mensagemHandler.mostrar}"
+                     class="notification #{mensagemHandler.tipoMensagem} content">
+                    <h2 class="has-text-white">#{mensagemHandler.texto}</h2>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
