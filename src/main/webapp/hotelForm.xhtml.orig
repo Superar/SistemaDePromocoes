@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+<<<<<<< HEAD
       xmlns:jsf="http://xmlns.jcp.org/jsf"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
@@ -18,7 +19,7 @@
             <ui:composition template="templates/default.xhtml">
                 <ui:define name="content">
                     <div class="container">
-                        <h1 class="title has-text-centered">Cadastro de Novo Hotel</h1>
+                        <h1 class="title has-text-centered">Cadastro de Novo zz</h1>
                         <hr/>
                         <div class="columns">
                             <div class="column">
@@ -89,6 +90,48 @@
                                         </div>
                                     </div>
                                 </h:form>
+=======
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+<h:head>
+    <h:outputStylesheet library="css" name="main.css"/>
+    <title>Cadastrar Novo Hotel</title>
+</h:head>
+<h:body>
+    <ui:composition template="templates/default.xhtml">
+        <ui:define name="content">
+            <div class="container">
+                <h1 class="title has-text-centered">Cadastro de Novo Hotel</h1>
+                <hr/>
+                <div class="columns">
+                    <div class="column">
+                        <h:form class="form">
+                        <div class="field">
+                            <label class="label">Nome</label>
+                            <div class="control">
+                                <label>
+                                    <input class="input"
+                                           type="text"
+                                           jsf:value="#{novoHotel.dadoHotel.nome}"
+                                           jsf:required="true"
+                                           jsf:label="nome"
+                                           jsf:id="nome"/>
+                                    <h:message for="nome" class="has-text-danger"/>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">CNPJ</label>
+                            <div class="control">
+                                <label>
+                                    <input class="input"
+                                           type="text"
+                                           jsf:value="#{novoHotel.dadoHotel.CNPJ}"
+                                           jsf:required="true"
+                                           jsf:label="CNPJ"
+                                           jsf:id="CNPJ"/>
+                                    <h:message for="CNPJ" class="has-text-danger"/>
+                                </label>
+>>>>>>> 94c4639c13d54d3509a3a6f55b02cda9a1f3522d
                             </div>
                         </div>
                     </div>
