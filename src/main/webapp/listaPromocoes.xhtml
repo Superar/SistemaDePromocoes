@@ -34,7 +34,12 @@
                                 <tr>
                                     <td>#{promocao.site.url}</td>
                                     <td>#{promocao.hotel.CNPJ}</td>
-                                    <td>R$ #{promocao.preco}</td>
+                                    <td>
+                                        R$ 
+                                        <h:outputText value="#{promocao.preco}">
+                                            <f:convertNumber pattern="#0.00" />
+                                        </h:outputText>
+                                    </td>
                                     <td>
                                         <h:outputText value="#{promocao.dataInicial}">
                                             <f:convertDateTime pattern="dd/MM/yyyy" />
