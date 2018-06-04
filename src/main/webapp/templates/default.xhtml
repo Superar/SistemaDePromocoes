@@ -10,7 +10,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <h:outputStylesheet name="main.css" library="css"/>
-    <h:outputScript name="default.js" library="js" />
+    <h:outputScript name="default.js" library="js" target="body"/>
 
     <title>Sistema de Promoções</title>
 </h:head>
@@ -48,6 +48,15 @@
 
     <div id="body" class="container">
         <ui:insert name="content">Content</ui:insert>
+    </div>
+
+    <div id="ajaxLoader" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <p class="has-text-centered">
+                <img src="#{resource['images:ajax-loader.gif']}" alt=""/>
+            </p>
+        </div>
     </div>
 </h:body>
 </html>

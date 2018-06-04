@@ -8,6 +8,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Named
 @RequestScoped
@@ -49,6 +51,12 @@ public class ListaHoteis {
     }
 
     public void aplicarFiltro(){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
         try {
             hoteis = hotelDAO.listarTodosHoteisPorCidade(cidadeFiltro);
             System.err.println(hoteis.size());

@@ -21,6 +21,7 @@
                         <h:commandButton value="Procurar" class="button is-info">
                             <f:ajax execute="cidade"
                                     render="lista_hoteis"
+                                    onevent="monitorarAjax"
                                     listener="#{listaHoteis.aplicarFiltro()}" />
                         </h:commandButton>
                     </div>
