@@ -39,15 +39,25 @@ public class NovoSite implements Serializable {
         this.dadoSite = dadoSite;
     }
 
+    public Boolean validar_CNPJ(Site dadoSite){
+        if(dadoSite.getTelefone().matches("[0-9]+")){
+            handler.setMensagem(true, "O Telefone só pode conter números", MensagemHandler.TipoMensagem.TIPO_ERRO);
+            return false;
+        }
+        return true;
+    }
+
     public String cadastrar() throws SQLException, NamingException {
         if (auth.isAdmin()) {
-            try {
-                siteDAO.gravarSite(dadoSite);
-                handler.setMensagem(true, "Site cadastrado com sucesso", MensagemHandler.TipoMensagem.TIPO_SUCESSO);
-                dadoSite.limparSite();
-            } catch (SQLIntegrityConstraintViolationException e) {
-                handler.setMensagem(true, "URL já cadastrada", MensagemHandler.TipoMensagem.TIPO_ERRO);
-                dadoSite.limparSite();
+            if(validar_CNPJ(dadoSite)) {
+                try {
+                    siteDAO.gravarSite(dadoSite);
+                    handler.setMensagem(true, "Site cadastrado com sucesso", MensagemHandler.TipoMensagem.TIPO_SUCESSO);
+                    dadoSite.limparSite();
+                } catch (SQLIntegrityConstraintViolationException e) {
+                    handler.setMensagem(true, "URL já cadastrada", MensagemHandler.TipoMensagem.TIPO_ERRO);
+                    dadoSite.limparSite();
+                }
             }
             return "siteForm";
         } else {
