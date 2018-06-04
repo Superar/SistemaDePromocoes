@@ -2,6 +2,7 @@ package br.ufscar.dc.promocoes.views;
 
 import br.ufscar.dc.promocoes.beans.Hotel;
 import br.ufscar.dc.promocoes.dao.HotelDAO;
+import java.io.IOException;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -65,5 +66,12 @@ public class NovoHotel implements Serializable {
             handler.setMensagem(true, "<strong>ERRO 401</strong>: Permissão negada", MensagemHandler.TipoMensagem.TIPO_ERRO);
             return "erro";
         }
+    }
+    
+    public String checkPermission() throws IOException {
+        if (!auth.isAdmin()) {
+            return "index?faces-redirect=true";
+        }
+        return null;
     }
 }

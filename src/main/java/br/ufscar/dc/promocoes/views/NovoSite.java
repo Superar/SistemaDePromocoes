@@ -2,6 +2,7 @@ package br.ufscar.dc.promocoes.views;
 
 import br.ufscar.dc.promocoes.beans.Site;
 import br.ufscar.dc.promocoes.dao.SiteDAO;
+import java.io.IOException;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -10,12 +11,11 @@ import javax.naming.NamingException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Named
 @SessionScoped
 public class NovoSite implements Serializable {
+
     Site dadoSite;
 
     @Inject
@@ -39,7 +39,6 @@ public class NovoSite implements Serializable {
         this.dadoSite = dadoSite;
     }
 
-
     public String cadastrar() throws SQLException, NamingException {
         if (auth.isAdmin()) {
             try {
@@ -53,5 +52,12 @@ public class NovoSite implements Serializable {
             handler.setMensagem(true, "<strong>ERRO 401</strong>: Permissão negada", MensagemHandler.TipoMensagem.TIPO_ERRO);
             return "erro";
         }
+    }
+
+    public String checkPermission() throws IOException {
+        if (!auth.isAdmin()) {
+            return "index?faces-redirect=true";
+        }
+        return null;
     }
 }
