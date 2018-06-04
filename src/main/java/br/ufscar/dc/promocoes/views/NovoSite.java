@@ -44,12 +44,14 @@ public class NovoSite implements Serializable {
             try {
                 siteDAO.gravarSite(dadoSite);
                 handler.setMensagem(true, "Site cadastrado com sucesso", MensagemHandler.TipoMensagem.TIPO_SUCESSO);
+                dadoSite.limparSite();
             } catch (SQLIntegrityConstraintViolationException e) {
                 handler.setMensagem(true, "URL já cadastrada", MensagemHandler.TipoMensagem.TIPO_ERRO);
+                dadoSite.limparSite();
             }
             return "siteForm";
         } else {
-            handler.setMensagem(true, "<strong>ERRO 401</strong>: Permissão negada", MensagemHandler.TipoMensagem.TIPO_ERRO);
+            handler.setMensagem(true, "ERRO 401: Permissão negada", MensagemHandler.TipoMensagem.TIPO_ERRO);
             return "erro";
         }
     }

@@ -36,4 +36,6 @@ public class Site {
         this.telefone = telefone;
     }
 
+    public void limparSite(){this.nome = null; this.senha = null; this.url = null; this.telefone= null;}
+
 }

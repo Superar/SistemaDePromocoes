@@ -55,15 +55,17 @@ public class NovoHotel implements Serializable {
                 try {
                     hotelDAO.gravarHotel(dadoHotel);
                     handler.setMensagem(true, "Hotel cadastrado com sucesso", MensagemHandler.TipoMensagem.TIPO_SUCESSO);
+                    dadoHotel.limparHotel();
                 } catch (SQLIntegrityConstraintViolationException e) {
                     handler.setMensagem(true, "Hotel já cadastrado", MensagemHandler.TipoMensagem.TIPO_ERRO);
+                    dadoHotel.limparHotel();
                 }
 
             }
             return "hotelForm";
 
         } else {
-            handler.setMensagem(true, "<strong>ERRO 401</strong>: Permissão negada", MensagemHandler.TipoMensagem.TIPO_ERRO);
+            handler.setMensagem(true, "ERRO 401: Permissão negada", MensagemHandler.TipoMensagem.TIPO_ERRO);
             return "erro";
         }
     }

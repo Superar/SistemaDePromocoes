@@ -36,4 +36,5 @@ public class Hotel {
         this.cidade = cidade;
     }
 
+    public void limparHotel(){ this.nome = null; this.senha=null; this.cidade = null; this.CNPJ =null;}
 }
