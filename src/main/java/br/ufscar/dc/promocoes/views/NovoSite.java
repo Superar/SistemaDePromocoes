@@ -39,8 +39,8 @@ public class NovoSite implements Serializable {
         this.dadoSite = dadoSite;
     }
 
-    public Boolean validar_CNPJ(Site dadoSite){
-        if(dadoSite.getTelefone().matches("[0-9]+")){
+    public Boolean validar_Telefone(Site dadoSite){
+        if(!dadoSite.getTelefone().matches("[0-9]+")){
             handler.setMensagem(true, "O Telefone só pode conter números", MensagemHandler.TipoMensagem.TIPO_ERRO);
             return false;
         }
@@ -49,7 +49,7 @@ public class NovoSite implements Serializable {
 
     public String cadastrar() throws SQLException, NamingException {
         if (auth.isAdmin()) {
-            if(validar_CNPJ(dadoSite)) {
+            if(validar_Telefone(dadoSite)) {
                 try {
                     siteDAO.gravarSite(dadoSite);
                     handler.setMensagem(true, "Site cadastrado com sucesso", MensagemHandler.TipoMensagem.TIPO_SUCESSO);
