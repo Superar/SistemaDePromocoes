@@ -26,6 +26,7 @@
                                         <label class="label">URL do Site</label>
                                         <div class="control">
                                             <h:inputText id="URLSite" class="input" label="URL do Site" required="true" value="#{novaPromocao.dadosPromocao.site.url}" />
+                                            <h:message for="URLSite" class="has-text-danger" />
                                         </div>
                                     </div>
 
@@ -33,6 +34,7 @@
                                         <label class="label">CNPJ do Hotel</label>
                                         <div class="control">
                                             <h:inputText id="CNPJHotel" class="input" label="CNPJ do Hotel" required="true" disabled="true" value="#{auth.id}"  />
+                                            <h:message for="CNPJHotel" class="has-text-danger" />
                                         </div>
                                     </div>
 
@@ -40,24 +42,27 @@
                                         <label class="label">Preço</label>
                                         <div class="control">
                                             <h:inputText id="preco" class="input" label="Preço" required="true" value="#{novaPromocao.dadosPromocao.preco}" />
+                                            <h:message for="preco" class="has-text-danger" />
                                         </div>
                                     </div>
 
                                     <div class="field">
                                         <label class="label">Data Inicial</label>
                                         <div class="control">
-                                            <h:inputText id="dataInicial" class="input" required="true" value="#{novaPromocao.dadosPromocao.dataInicial}">
+                                            <h:inputText id="dataInicial" class="input" label="Data Final" required="true" value="#{novaPromocao.dadosPromocao.dataInicial}">
                                                 <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
                                             </h:inputText>
+                                            <h:message for="dataInicial" class="has-text-danger" />
                                         </div>
                                     </div>
 
                                     <div class="field">
                                         <label class="label">Data do Fim</label>
                                         <div class="control">
-                                            <h:inputText id="dataFinal" class="input" required="true" value="#{novaPromocao.dadosPromocao.dataFinal}">
+                                            <h:inputText id="dataFinal" class="input" label="Data Final" required="true" value="#{novaPromocao.dadosPromocao.dataFinal}">
                                                 <f:convertDateTime type="date" pattern="dd/MM/yyyy" />
                                             </h:inputText>
+                                            <h:message for="dataFinal" class="has-text-danger" />
                                         </div>
                                     </div>
 

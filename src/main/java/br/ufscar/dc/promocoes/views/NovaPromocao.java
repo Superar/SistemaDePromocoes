@@ -60,12 +60,15 @@ public class NovaPromocao implements Serializable {
             if (constraint.equals("23505")) {
                 msgHandler.setMensagem(true, "Promoção já cadastrada", MensagemHandler.TipoMensagem.TIPO_ERRO);
             } else {
-                msgHandler.setMensagem(true, "Hotel não cadastrado", MensagemHandler.TipoMensagem.TIPO_ERRO);
+                msgHandler.setMensagem(true, "Site não cadastrado", MensagemHandler.TipoMensagem.TIPO_ERRO);
             }
             return "promocaoForm";
         }
 
         msgHandler.setMensagem(true, "Promoção cadastrada com sucesso", MensagemHandler.TipoMensagem.TIPO_SUCESSO);
+        dadosPromocao = new Promocao();
+        dadosPromocao.setHotel(new Hotel());
+        dadosPromocao.setSite(new Site());
         return "promocaoForm";
     }
 
