@@ -95,13 +95,11 @@
                                     </div>
                                 </h:form>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="column">
-                        <div jsf:rendered="#{mensagemHandler.mostrar}"
-                             class="notification #{mensagemHandler.tipoMensagem} content">
-                            <h2 class="has-text-white">#{mensagemHandler.texto}</h2>
+                            <div class="column">
+                                <div jsf:rendered="#{mensagemHandler.mostrar}" class="notification #{mensagemHandler.tipoMensagem} content">
+                                    <h2 class="has-text-white">#{mensagemHandler.texto}</h2>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </ui:define>
